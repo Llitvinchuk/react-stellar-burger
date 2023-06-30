@@ -10,9 +10,7 @@ import PropTypes from "prop-types";
 import { ingredientPropType } from "../../utils/prop-types";
 
 export const BurgerConstructor = ({ order, setOrder }) => {
-  const bunsPrice = order.buns.reduce((prev, bun) => {
-    return prev + bun.price * 2;
-  }, 0);
+  const bunsPrice = order.bun?.price || 0;
   const ingredientPrice = order.ingredients
     .map((i) => i.price * i.qty)
     .reduce((prev, current) => {
@@ -24,19 +22,17 @@ export const BurgerConstructor = ({ order, setOrder }) => {
   return (
     <div className={styles.column}>
       <div className={styles.container}>
-        {order.buns.map((element) => {
-          return (
-            <div key={`${element.id}-top`} className={styles.bun}>
-              <ConstructorElement
-                type="top"
-                isLocked={true}
-                text={`${element.name} (верх)`}
-                price={element.price}
-                thumbnail={element.image}
-              />
-            </div>
-          );
-        })}
+        {order.bun ? (
+          <div key={`${order.bun.id}-top`} className={styles.bun}>
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={`${order.bun.name} (верх)`}
+              price={order.bun.price}
+              thumbnail={order.bun.image}
+            />
+          </div>
+        ) : null}
 
         <div className={styles.scrolling}>
           {order.ingredients.map((element) => {
@@ -93,19 +89,18 @@ export const BurgerConstructor = ({ order, setOrder }) => {
               });
           })}
         </div>
-        {order.buns.map((element) => {
-          return (
-            <div key={`${element.id}-bottom`} className={styles.bun}>
-              <ConstructorElement
-                type="bottom"
-                isLocked={true}
-                text={`${element.name} (низ)`}
-                price={element.price}
-                thumbnail={element.image}
-              />
-            </div>
-          );
-        })}
+
+        {order.bun ? (
+          <div key={`${order.bun.id}-bottom`} className={styles.bun}>
+            <ConstructorElement
+              type="bottom"
+              isLocked={true}
+              text={`${order.bun.name} (низ)`}
+              price={order.bun.price}
+              thumbnail={order.bun.image}
+            />
+          </div>
+        ) : null}
       </div>
       <div className={`${styles.currency}  `}>
         <div className={`${styles.order_button} `}>

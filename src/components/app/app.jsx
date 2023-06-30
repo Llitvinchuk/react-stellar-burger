@@ -7,7 +7,7 @@ import { useState } from "react";
 
 function App() {
   const [order, setOrder] = useState({
-    buns: [],
+    bun: undefined,
     ingredients: [],
   });
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import styles from "./BurgerIngredients.module.css";
 import {
   Tab,
@@ -10,6 +10,11 @@ import { ingredientPropType } from "../../utils/prop-types";
 
 export const BurgerIngredients = ({ data, order, setOrder }) => {
   const [current, setCurrent] = React.useState("buns");
+
+  const buns = data.filter((item) => item.type === "bun");
+  const sauces = data.filter((item) => item.type === "sauce");
+  const main = data.filter((item) => item.type === "main");
+
   const setTab = (tab) => {
     setCurrent(tab);
     const element = document.getElementById(tab);
@@ -59,18 +64,14 @@ export const BurgerIngredients = ({ data, order, setOrder }) => {
             Булки
           </p>
           <div className={styles.buns}>
-            {data.map((element) => {
-              if (element.type === "bun") {
-                return (
-                  <Menu
-                    key={element._id}
-                    element={element}
-                    order={order}
-                    setOrder={setOrder}
-                  />
-                );
-              }
-            })}
+            {buns.map((element) => (
+              <Ingredient
+                key={element._id}
+                element={element}
+                order={order}
+                setOrder={setOrder}
+              />
+            ))}
           </div>
           <p
             id="sauces"
@@ -79,18 +80,14 @@ export const BurgerIngredients = ({ data, order, setOrder }) => {
             Соусы
           </p>
           <div className={styles.sauces}>
-            {data.map((element) => {
-              if (element.type === "sauce") {
-                return (
-                  <Menu
-                    key={element._id}
-                    element={element}
-                    order={order}
-                    setOrder={setOrder}
-                  />
-                );
-              }
-            })}
+            {sauces.map((element) => (
+              <Ingredient
+                key={element._id}
+                element={element}
+                order={order}
+                setOrder={setOrder}
+              />
+            ))}
           </div>
           <p
             id="main"
@@ -99,18 +96,14 @@ export const BurgerIngredients = ({ data, order, setOrder }) => {
             Начинки
           </p>
           <div className={styles.mains}>
-            {data.map((element) => {
-              if (element.type === "main") {
-                return (
-                  <Menu
-                    key={element._id}
-                    element={element}
-                    order={order}
-                    setOrder={setOrder}
-                  />
-                );
-              }
-            })}
+            {main.map((element) => (
+              <Ingredient
+                key={element._id}
+                element={element}
+                order={order}
+                setOrder={setOrder}
+              />
+            ))}
           </div>
         </div>
       </>
@@ -118,20 +111,35 @@ export const BurgerIngredients = ({ data, order, setOrder }) => {
   );
 };
 
-const Menu = ({ element, order, setOrder }) => {
-  const orderType = element.type === "bun" ? "buns" : "ingredients";
+const Ingredient = ({ element, order, setOrder }) => {
+  const orderType = element.type === "bun" ? "bun" : "ingredients";
+  const qty = useMemo(() => {
+    if (orderType === "bun") {
+      return order.bun?.name === element.name ? 1 : 0;
+    } else {
+      return (
+        order[orderType].find(
+          (orderIngredient) => orderIngredient.name === element.name
+        )?.qty || 0
+      );
+    }
+  }, [order]);
 
   return (
     <div
       className={styles.ingredient}
       onClick={() => {
         setOrder((prevOrder) => {
-          const type = element.type === "bun" ? "buns" : "ingredients";
+          const type = element.type === "bun" ? "bun" : "ingredients";
 
           const newState = { ...prevOrder };
 
-          if (type === "buns") {
-            if (newState[type].length > 0) {
+          if (type === "bun") {
+            if (newState[type]) {
+              return newState;
+            } else {
+              newState.bun = element;
+
               return newState;
             }
           }
@@ -156,14 +164,7 @@ const Menu = ({ element, order, setOrder }) => {
         });
       }}
     >
-      <Counter
-        count={
-          order[orderType].find(
-            (orderIngredient) => orderIngredient.name === element.name
-          )?.qty || 0
-        }
-        size="default"
-      />
+      <Counter count={qty} size="default" />
       <img className="ml-4 mr-4 mb-1" alt={element.name} src={element.image} />
       <div className={styles.price}>
         <p className="text text_type_digits-default">{element.price}</p>
@@ -177,4 +178,6 @@ const Menu = ({ element, order, setOrder }) => {
 BurgerIngredients.propTypes = {
   data: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
 };
-Menu.propTypes = PropTypes.arrayOf(ingredientPropType.isRequired).isRequired;
+Ingredient.propTypes = PropTypes.arrayOf(
+  ingredientPropType.isRequired
+).isRequired;
