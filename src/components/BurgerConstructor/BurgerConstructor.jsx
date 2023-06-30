@@ -12,7 +12,7 @@ import { ingredientPropType } from "../../utils/prop-types";
 export const BurgerConstructor = ({ order, setOrder }) => {
   const bunsPrice = order.bun?.price || 0;
   const ingredientPrice = order.ingredients
-    .map((i) => i.price * i.qty)
+    .map((ingredient) => ingredient.price * ingredient.qty)
     .reduce((prev, current) => {
       return prev + current;
     }, 0);
@@ -60,12 +60,12 @@ export const BurgerConstructor = ({ order, setOrder }) => {
                             if (
                               newState[type].find(
                                 (stateIngredient) =>
-                                  stateIngredient.name === element.name
+                                  stateIngredient._id === element._id
                               )
                             ) {
                               newState[type] = newState[type].map(
                                 (stateIngredient) => {
-                                  if (stateIngredient.name === element.name) {
+                                  if (stateIngredient._id === element._id) {
                                     return {
                                       ...stateIngredient,
                                       qty: stateIngredient.qty--,

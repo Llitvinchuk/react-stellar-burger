@@ -11,9 +11,9 @@ import { ingredientPropType } from "../../utils/prop-types";
 export const BurgerIngredients = ({ data, order, setOrder }) => {
   const [current, setCurrent] = React.useState("buns");
 
-  const buns = data.filter((item) => item.type === "bun");
-  const sauces = data.filter((item) => item.type === "sauce");
-  const main = data.filter((item) => item.type === "main");
+  const buns = useMemo(() => data.filter((item) => item.type === "bun"));
+  const sauces = useMemo(() => data.filter((item) => item.type === "sauce"));
+  const main = useMemo(() => data.filter((item) => item.type === "main"));
 
   const setTab = (tab) => {
     setCurrent(tab);
@@ -115,11 +115,15 @@ const Ingredient = ({ element, order, setOrder }) => {
   const orderType = element.type === "bun" ? "bun" : "ingredients";
   const qty = useMemo(() => {
     if (orderType === "bun") {
-      return order.bun?.name === element.name ? 1 : 0;
+      if (order.bun?._id) {
+        return order.bun._id === element._id ? 1 : 0;
+      }
+
+      return 0;
     } else {
       return (
         order[orderType].find(
-          (orderIngredient) => orderIngredient.name === element.name
+          (orderIngredient) => orderIngredient._id === element._id
         )?.qty || 0
       );
     }
@@ -146,11 +150,11 @@ const Ingredient = ({ element, order, setOrder }) => {
 
           if (
             newState[type].find(
-              (stateIngredient) => stateIngredient.name === element.name
+              (stateIngredient) => stateIngredient._id === element._id
             )
           ) {
             newState[type] = newState[type].map((stateIngredient) => {
-              if (stateIngredient.name === element.name) {
+              if (stateIngredient._id === element._id) {
                 return { ...stateIngredient, qty: stateIngredient.qty++ };
               }
 
