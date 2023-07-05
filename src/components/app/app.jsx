@@ -2,44 +2,43 @@ import styles from "./app.module.css";
 import { AppHeader } from "../appHeader/AppHeader";
 import { BurgerIngredients } from "../BurgerIngredients/BurgerIngredients";
 import { BurgerConstructor } from "../BurgerConstructor/BurgerConstructor";
-import { data } from "../../utils/data";
 import { useState, useEffect } from "react";
-
-const URL = "https://norma.nomoreparties.space/api/ingredients";
+import { getIngredients } from "../../utils/api";
 
 function App() {
   const [order, setOrder] = useState({
     bun: undefined,
     ingredients: [],
   });
-  const [state, setState] = useState({
+
+  const [ingredients, setIngredients] = useState({
     isLoading: true,
     hasError: false,
     data: [],
   });
 
   useEffect(() => {
-    setState({ ...state, isLoading: true });
-    fetch(URL)
-      .then((response) => {
-        if (response.ok) return response.json();
-        return Promise.reject(response.status);
-      })
-      .then((data) => {
-        setState({
-          ...state,
+    setIngredients((prevState) => ({ ...prevState, isLoading: true }));
+
+    getIngredients()
+      .then((res) => {
+        setIngredients({
           isLoading: false,
           hasError: false,
-          data: data.data,
+          data: res.data,
         });
       })
-      .catch((err) => {
-        setState({ ...state, hasError: true, isLoading: false });
+      .catch((error) => {
+        setIngredients((prevState) => ({
+          ...prevState,
+          hasError: true,
+          isLoading: false,
+        }));
       });
   }, []);
 
-  if (state.isLoading) return <p>Загрузка...</p>;
-  else if (state.hasError)
+  if (ingredients.isLoading) return <p>Загрузка...</p>;
+  else if (ingredients.hasError)
     return <p>Произошла ошибка, пожалуйста попробуйте снова</p>;
 
   return (
@@ -49,14 +48,14 @@ function App() {
         <section className={`${styles.column} ${styles.columns}`}>
           <div className={`${styles.article} ${styles.first__article}`}>
             <BurgerIngredients
-              data={state.data}
+              data={ingredients.data}
               order={order}
               setOrder={setOrder}
             />
           </div>
         </section>
         <BurgerConstructor
-          data={state.data}
+          data={ingredients.data}
           order={order}
           setOrder={setOrder}
         />

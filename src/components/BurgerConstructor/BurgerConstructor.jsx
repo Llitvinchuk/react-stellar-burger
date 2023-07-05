@@ -11,7 +11,7 @@ import { ingredientPropType } from "../../utils/prop-types";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 
-export const BurgerConstructor = ({ order, setOrder }) => {
+export const BurgerConstructor = ({ order, setOrder, element }) => {
   const [show, setShow] = useState(false);
   const bunsPrice = order.bun?.price || 0;
   const ingredientPrice = order.ingredients
@@ -21,6 +21,35 @@ export const BurgerConstructor = ({ order, setOrder }) => {
     }, 0);
 
   const total = ingredientPrice + bunsPrice;
+
+  const handleClose = (element) => {
+    setOrder((prevOrder) => {
+      const type = element.type === "bun" ? "bun" : "ingredients";
+
+      const newState = { ...prevOrder };
+
+      if (
+        newState[type].some(
+          (stateIngredient) => stateIngredient._id === element._id
+        )
+      ) {
+        newState[type] = newState[type].map((stateIngredient) => {
+          if (stateIngredient._id === element._id) {
+            return {
+              ...stateIngredient,
+              qty: stateIngredient.qty--,
+            };
+          }
+
+          return stateIngredient;
+        });
+      } else {
+        newState[type].push({ ...element, qty: 1 });
+      }
+
+      return newState;
+    });
+  };
 
   return (
     <div className={styles.column}>
@@ -54,36 +83,7 @@ export const BurgerConstructor = ({ order, setOrder }) => {
                         price={element.price}
                         thumbnail={element.image}
                         handleClose={() => {
-                          setOrder((prevOrder) => {
-                            const type =
-                              element.type === "bun" ? "buns" : "ingredients";
-
-                            const newState = { ...prevOrder };
-
-                            if (
-                              newState[type].find(
-                                (stateIngredient) =>
-                                  stateIngredient._id === element._id
-                              )
-                            ) {
-                              newState[type] = newState[type].map(
-                                (stateIngredient) => {
-                                  if (stateIngredient._id === element._id) {
-                                    return {
-                                      ...stateIngredient,
-                                      qty: stateIngredient.qty--,
-                                    };
-                                  }
-
-                                  return stateIngredient;
-                                }
-                              );
-                            } else {
-                              newState[type].push({ ...element, qty: 1 });
-                            }
-
-                            return newState;
-                          });
+                          handleClose(element);
                         }}
                       />
                     </div>
