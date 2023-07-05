@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./BurgerConstructor.module.css";
 import {
   ConstructorElement,
@@ -8,8 +8,11 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import { ingredientPropType } from "../../utils/prop-types";
+import Modal from "../Modal/Modal";
+import OrderDetails from "../OrderDetails/OrderDetails";
 
 export const BurgerConstructor = ({ order, setOrder }) => {
+  const [show, setShow] = useState(false);
   const bunsPrice = order.bun?.price || 0;
   const ingredientPrice = order.ingredients
     .map((ingredient) => ingredient.price * ingredient.qty)
@@ -110,9 +113,19 @@ export const BurgerConstructor = ({ order, setOrder }) => {
             {total}
             <CurrencyIcon />
           </span>
-          <Button type="primary" size="large" htmlType="button">
+          <Button
+            type="primary"
+            size="large"
+            htmlType="button"
+            onClick={() => setShow(true)}
+          >
             Оформить заказ
           </Button>
+          {show && (
+            <Modal title="" onClose={() => setShow(false)}>
+              <OrderDetails />
+            </Modal>
+          )}
         </div>
       </div>
     </div>
