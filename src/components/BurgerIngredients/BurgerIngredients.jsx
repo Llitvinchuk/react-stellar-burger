@@ -8,9 +8,18 @@ import { Ingredient } from "./Ingredient";
 export const BurgerIngredients = ({ data, order, setOrder }) => {
   const [current, setCurrent] = React.useState("buns");
 
-  const buns = useMemo(() => data.filter((item) => item.type === "bun"));
-  const sauces = useMemo(() => data.filter((item) => item.type === "sauce"));
-  const main = useMemo(() => data.filter((item) => item.type === "main"));
+  const buns = useMemo(
+    () => data.filter((item) => item.type === "bun"),
+    [data]
+  );
+  const sauces = useMemo(
+    () => data.filter((item) => item.type === "sauce"),
+    [data]
+  );
+  const main = useMemo(
+    () => data.filter((item) => item.type === "main"),
+    [data]
+  );
 
   const setTab = (tab) => {
     setCurrent(tab);

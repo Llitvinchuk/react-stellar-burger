@@ -18,7 +18,7 @@ const ModalOverlay = ({ onClose }) => {
     };
   }, []);
 
-  return <div className={styles.overlay}></div>;
+  return <div onClick={onClose} className={styles.overlay}></div>;
 };
 
 export default ModalOverlay;
