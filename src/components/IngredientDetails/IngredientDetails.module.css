@@ -1,0 +1,21 @@
+.image {
+  width: 520px;
+  height: 240px;
+  display: flex;
+  justify-content: center;
+}
+.name {
+  width: 520px;
+  text-align: center;
+}
+.compound {
+  width: 520px;
+  display: flex;
+  gap: 20px;
+  height: 54px;
+}
+.compound div {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
