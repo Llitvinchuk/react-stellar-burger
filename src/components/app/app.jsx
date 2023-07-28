@@ -1,5 +1,5 @@
 import styles from "./App.module.css";
-import { AppHeader } from "../appHeader/AppHeader";
+import { AppHeader } from "../AppHeader/AppHeader";
 import { BurgerIngredients } from "../BurgerIngredients/BurgerIngredients";
 import { BurgerConstructor } from "../BurgerConstructor/BurgerConstructor";
 import { useState, useEffect } from "react";
@@ -24,36 +24,6 @@ function App() {
     showOrderModal: false,
     orderNum: null,
   });
-
-  // const toggleOrderModal = () => {
-  //   if (!state.showOrderModal) {
-  //     const Body = order.ingredients.map((item) => item._id);
-  //     fetch("https://norma.nomoreparties.space/api/orders", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({ ingredients: Body }),
-  //     })
-  //       .then((response) => {
-  //         if (response.ok) return response.json();
-  //         setState({
-  //           ...state,
-  //           showOrderModal: !state.showOrderModal,
-  //           orderNum: null,
-  //         });
-  //         return Promise.reject(response.status);
-  //       })
-  //       .then((result) => {
-  //         setState({
-  //           ...state,
-  //           showOrderModal: !state.showOrderModal,
-  //           orderNum: result.order.number,
-  //         });
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   } else setState({ ...state, showOrderModal: !state.showOrderModal });
-  // };
 
   const toggleOrderModal = () => {
     if (!state.showOrderModal) {
