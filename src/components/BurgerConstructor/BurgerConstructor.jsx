@@ -12,8 +12,6 @@ import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
-import { ingredientPropType } from "../../utils/prop-types";
 
 import { BurgerConstructorContext } from "../../utils/BurgerConstructorContext";
 
@@ -158,8 +156,4 @@ export const BurgerConstructor = () => {
       </div>
     </div>
   );
-};
-
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
 };

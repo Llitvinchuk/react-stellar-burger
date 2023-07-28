@@ -1,9 +1,9 @@
-import styles from "./app.module.css";
+import styles from "./App.module.css";
 import { AppHeader } from "../appHeader/AppHeader";
 import { BurgerIngredients } from "../BurgerIngredients/BurgerIngredients";
 import { BurgerConstructor } from "../BurgerConstructor/BurgerConstructor";
 import { useState, useEffect } from "react";
-import { getIngredients } from "../../utils/api";
+import { URL, checkResponse, getIngredients } from "../../utils/api";
 import { BurgerConstructorContext } from "../../utils/BurgerConstructorContext";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
@@ -25,23 +25,52 @@ function App() {
     orderNum: null,
   });
 
+  // const toggleOrderModal = () => {
+  //   if (!state.showOrderModal) {
+  //     const Body = order.ingredients.map((item) => item._id);
+  //     fetch("https://norma.nomoreparties.space/api/orders", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ ingredients: Body }),
+  //     })
+  //       .then((response) => {
+  //         if (response.ok) return response.json();
+  //         setState({
+  //           ...state,
+  //           showOrderModal: !state.showOrderModal,
+  //           orderNum: null,
+  //         });
+  //         return Promise.reject(response.status);
+  //       })
+  //       .then((result) => {
+  //         setState({
+  //           ...state,
+  //           showOrderModal: !state.showOrderModal,
+  //           orderNum: result.order.number,
+  //         });
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   } else setState({ ...state, showOrderModal: !state.showOrderModal });
+  // };
+
   const toggleOrderModal = () => {
     if (!state.showOrderModal) {
       const Body = order.ingredients.map((item) => item._id);
-      fetch("https://norma.nomoreparties.space/api/orders", {
+      fetch(`${URL}/orders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ingredients: Body }),
       })
-        .then((response) => {
-          if (response.ok) return response.json();
+        .then(
+          checkResponse,
           setState({
             ...state,
             showOrderModal: !state.showOrderModal,
             orderNum: null,
-          });
-          return Promise.reject(response.status);
-        })
+          })
+        )
         .then((result) => {
           setState({
             ...state,
@@ -82,34 +111,30 @@ function App() {
   return (
     <div className={styles.app}>
       <AppHeader />
+      <BurgerConstructorContext.Provider
+        value={{
+          data: ingredients.data,
+          order: order,
+          setOrder: setOrder,
+          toggleOrderModal,
+          orderNum: state.orderNum,
+        }}
+      >
+        <main className={`${styles.main} ${styles.columns}`}>
+          <section className={`${styles.column} ${styles.columns}`}>
+            <div className={`${styles.article} ${styles.first__article}`}>
+              <BurgerIngredients />
+            </div>
+          </section>
 
-      <div className={`${styles.main} ${styles.columns}`}>
-        <section className={`${styles.column} ${styles.columns}`}>
-          <div className={`${styles.article} ${styles.first__article}`}>
-            <BurgerIngredients
-              data={ingredients.data}
-              order={order}
-              setOrder={setOrder}
-            />
-          </div>
-        </section>
-        <BurgerConstructorContext.Provider
-          value={{
-            data: ingredients.data,
-            order: order,
-            setOrder: setOrder,
-            toggleOrderModal,
-            orderNum: state.orderNum,
-          }}
-        >
           <BurgerConstructor />
           {state.showOrderModal ? (
             <Modal onClose={toggleOrderModal} title={""}>
               <OrderDetails />
             </Modal>
           ) : null}
-        </BurgerConstructorContext.Provider>
-      </div>
+        </main>
+      </BurgerConstructorContext.Provider>
     </div>
   );
 }
