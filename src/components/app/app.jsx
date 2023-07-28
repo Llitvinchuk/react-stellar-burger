@@ -33,14 +33,7 @@ function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ingredients: Body }),
       })
-        .then(
-          checkResponse,
-          setState({
-            ...state,
-            showOrderModal: !state.showOrderModal,
-            orderNum: null,
-          })
-        )
+        .then(checkResponse)
         .then((result) => {
           setState({
             ...state,

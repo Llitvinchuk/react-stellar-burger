@@ -110,7 +110,7 @@ export const BurgerConstructor = () => {
                     <DragIcon type="primary" />
                     <div key={element.id} className="w-full">
                       <ConstructorElement
-                        text={`${element.name} (низ)`}
+                        text={`${element.name}`}
                         price={element.price}
                         thumbnail={element.image}
                         handleClose={() => {
