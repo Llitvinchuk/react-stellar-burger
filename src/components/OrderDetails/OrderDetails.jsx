@@ -1,10 +1,13 @@
 import styles from "./OrderDetails.module.css";
 import doneIcon from "../../images/graphics.svg";
+import { useContext } from "react";
+import { BurgerConstructorContext } from "../../utils/BurgerConstructorContext";
 
 const OrderDetails = () => {
+  const { orderNum } = useContext(BurgerConstructorContext);
   return (
     <div>
-      <p className="mt-30 text text_type_digits-large">034536</p>
+      <p className="mt-30 text text_type_digits-large">{orderNum}</p>
       <p className={`${styles.mediumText} mt-8 text text_type_main-medium`}>
         идентефикатор заказа
       </p>

@@ -51,7 +51,7 @@ export const Ingredient = ({ element, order, setOrder }) => {
       ) {
         newState[type] = newState[type].map((stateIngredient) => {
           if (stateIngredient._id === element._id) {
-            return { ...stateIngredient, qty: stateIngredient.qty++ };
+            return { ...stateIngredient, qty: stateIngredient.qty + 1 };
           }
 
           return stateIngredient;
