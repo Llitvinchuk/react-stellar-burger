@@ -72,3 +72,7 @@
 .counter {
   cursor: pointer;
 }
+.move {
+  width: 536px;
+  display: flex;
+}

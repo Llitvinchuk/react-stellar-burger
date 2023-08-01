@@ -1,21 +1,25 @@
-import React, { useContext, useMemo } from "react";
+import React, { useMemo } from "react";
 import styles from "./BurgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Ingredient } from "./Ingredient";
-import { BurgerConstructorContext } from "../../utils/BurgerConstructorContext";
+import { useSelector } from "react-redux";
+import { useInView } from "react-intersection-observer";
 
 export const BurgerIngredients = () => {
+  const data = useSelector((state) => {
+    return state.ingredients.data;
+  });
   const [current, setCurrent] = React.useState("buns");
-  const { order, setOrder, data } = useContext(BurgerConstructorContext);
 
-  const buns = useMemo(
-    () => data.filter((item) => item.type === "bun"),
-    [data]
-  );
+  const buns = useMemo(() => {
+    return data.filter((item) => item.type === "bun");
+  }, [data]);
+
   const sauces = useMemo(
     () => data.filter((item) => item.type === "sauce"),
     [data]
   );
+
   const main = useMemo(
     () => data.filter((item) => item.type === "main"),
     [data]
@@ -27,6 +31,10 @@ export const BurgerIngredients = () => {
     if (element) element.scrollIntoView({ behavior: "smooth" });
   };
 
+  const [bunRef, bunInView] = useInView();
+  const [sauceRef, sauceInView] = useInView();
+  const [mainRef, mainInView] = useInView();
+
   return (
     data && (
       <>
@@ -36,7 +44,7 @@ export const BurgerIngredients = () => {
         <div className={styles.container}>
           <Tab
             value="buns"
-            active={current === "buns"}
+            active={bunInView === true}
             onClick={() => {
               setTab("buns");
             }}
@@ -45,7 +53,7 @@ export const BurgerIngredients = () => {
           </Tab>
           <Tab
             value="sauces"
-            active={current === "sauces"}
+            active={sauceInView === true}
             onClick={() => {
               setTab("sauces");
             }}
@@ -54,7 +62,7 @@ export const BurgerIngredients = () => {
           </Tab>
           <Tab
             value="main"
-            active={current === "main"}
+            active={mainInView === true}
             onClick={() => {
               setTab("main");
             }}
@@ -69,14 +77,9 @@ export const BurgerIngredients = () => {
           >
             Булки
           </p>
-          <div className={styles.buns}>
+          <div className={styles.buns} ref={bunRef}>
             {buns.map((element) => (
-              <Ingredient
-                key={element._id}
-                element={element}
-                order={order}
-                setOrder={setOrder}
-              />
+              <Ingredient key={element._id} element={element} />
             ))}
           </div>
           <p
@@ -85,14 +88,9 @@ export const BurgerIngredients = () => {
           >
             Соусы
           </p>
-          <div className={styles.sauces}>
+          <div className={styles.sauces} ref={sauceRef}>
             {sauces.map((element) => (
-              <Ingredient
-                key={element._id}
-                element={element}
-                order={order}
-                setOrder={setOrder}
-              />
+              <Ingredient key={element._id} element={element} />
             ))}
           </div>
           <p
@@ -101,14 +99,9 @@ export const BurgerIngredients = () => {
           >
             Начинки
           </p>
-          <div className={styles.mains}>
+          <div className={styles.mains} ref={mainRef}>
             {main.map((element) => (
-              <Ingredient
-                key={element._id}
-                element={element}
-                order={order}
-                setOrder={setOrder}
-              />
+              <Ingredient key={element._id} element={element} />
             ))}
           </div>
         </div>

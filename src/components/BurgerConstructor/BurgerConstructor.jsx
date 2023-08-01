@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useContext,
-  useReducer,
-  useEffect,
-  useMemo,
-} from "react";
+import React, { useReducer, useEffect, useMemo, useCallback } from "react";
 import styles from "./BurgerConstructor.module.css";
 import {
   ConstructorElement,
@@ -13,12 +7,39 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { BurgerConstructorContext } from "../../utils/BurgerConstructorContext";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addBurgerIngredient,
+  moveIngredient,
+} from "../../services/actions/BurgerConstructorAction";
+import {
+  closeOrderDetailsModal,
+  openOrderDetailsModal,
+  postOrder,
+} from "../../services/actions/OrderDetailsAction";
+import Modal from "../Modal/Modal";
+import OrderDetails from "../OrderDetails/OrderDetails";
+import { useDrop } from "react-dnd";
+import { BurgerIngredientMove } from "../BurgerIngredients/BurgerIngredientMove";
 
 export const BurgerConstructor = () => {
-  const { order, setOrder, toggleOrderModal } = useContext(
-    BurgerConstructorContext
-  );
+  const dispatch = useDispatch();
+  const { isOrderPopupOpened } = useSelector((state) => state.orderDetails);
+
+  const bun = useSelector((state) => state.burger.bun);
+
+  const ingredients = useSelector((state) => state.burger.ingredients);
+
+  const [, drop] = useDrop({
+    accept: "ingredient",
+    drop(item) {
+      dispatch(addBurgerIngredient(item));
+    },
+  });
+
+  const moveIngredientHandler = (dragIndex, hoverIndex) => {
+    dispatch(moveIngredient(dragIndex, hoverIndex));
+  };
 
   const initialState = {
     count: 0,
@@ -28,77 +49,61 @@ export const BurgerConstructor = () => {
   function reducer(state, action) {
     switch (action.type) {
       case "change":
-        const ingredientPrice = order.ingredients
-          .map((ingredient) => ingredient.price * ingredient.qty)
+        const ingredientPrice = ingredients
+          .map((ingredient) => ingredient.price)
           .reduce((prev, current) => {
             return prev + current;
           }, 0);
-        const bunsPrice = order.bun?.price * 2 || 0;
+        const bunsPrice = bun?.price * 2 || 0;
         const total = ingredientPrice + bunsPrice;
-        const IDs = [
-          order.bun?._id,
-          ...order.ingredients.map((item) => item._id),
-        ];
+        const IDs = [bun?._id, ...ingredients.map((item) => item._id)];
         return { count: total, ids: IDs };
       default:
         return state;
     }
   }
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatchState] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    dispatch({ type: "change" });
-  }, [order]);
+    dispatchState({ type: "change" });
+  }, [ingredients, bun]);
 
   const total = state.count;
 
-  const handleClose = (element) => {
-    setOrder((prevOrder) => {
-      const type = element.type === "bun" ? "bun" : "ingredients";
+  const orderedIngredients = useMemo(
+    () => ingredients.map((m) => m._id),
+    [ingredients]
+  );
 
-      const newState = { ...prevOrder };
+  const handleOpenModal = useCallback(() => {
+    dispatch(openOrderDetailsModal());
+    const allIngredients = [...orderedIngredients, bun._id];
 
-      if (
-        newState[type].some(
-          (stateIngredient) => stateIngredient._id === element._id
-        )
-      ) {
-        newState[type] = newState[type].map((stateIngredient) => {
-          if (stateIngredient._id === element._id) {
-            return {
-              ...stateIngredient,
-              qty: stateIngredient.qty - 1,
-            };
-          }
+    dispatch(postOrder(allIngredients));
+  }, [dispatch, orderedIngredients, bun]);
 
-          return stateIngredient;
-        });
-      } else {
-        newState[type].push({ ...element, qty: 1 });
-      }
-
-      return newState;
-    });
+  const handleCloseOrder = () => {
+    dispatch(closeOrderDetailsModal());
   };
 
   return (
-    <div className={styles.column}>
+    <div className={styles.column} ref={drop}>
       <div className={styles.container}>
-        {order.bun ? (
-          <div key={`${order.bun.id}-top`} className={styles.bun}>
+        {bun ? (
+          <div key={`${bun.id}-top`} className={styles.bun}>
             <ConstructorElement
               type="top"
               isLocked={true}
-              text={`${order.bun.name} (верх)`}
-              price={order.bun.price}
-              thumbnail={order.bun.image}
+              text={`${bun.name} (верх)`}
+              price={bun.price}
+              thumbnail={bun.image}
             />
           </div>
         ) : null}
 
         <div className={styles.scrolling}>
-          {order.ingredients.map((element) => {
+          {ingredients.map((element) => {
             return Array(element.qty)
               .fill(element)
               .map((el, index) => {
@@ -109,13 +114,9 @@ export const BurgerConstructor = () => {
                   >
                     <DragIcon type="primary" />
                     <div key={element.id} className="w-full">
-                      <ConstructorElement
-                        text={`${element.name}`}
-                        price={element.price}
-                        thumbnail={element.image}
-                        handleClose={() => {
-                          handleClose(element);
-                        }}
+                      <BurgerIngredientMove
+                        ingredient={element}
+                        moveIngredientItem={moveIngredientHandler}
                       />
                     </div>
                   </div>
@@ -124,14 +125,14 @@ export const BurgerConstructor = () => {
           })}
         </div>
 
-        {order.bun ? (
-          <div key={`${order.bun.id}-bottom`} className={styles.bun}>
+        {bun ? (
+          <div key={`${bun.id}-bottom`} className={styles.bun}>
             <ConstructorElement
               type="bottom"
               isLocked={true}
-              text={`${order.bun.name} (низ)`}
-              price={order.bun.price}
-              thumbnail={order.bun.image}
+              text={`${bun.name} (низ)`}
+              price={bun.price}
+              thumbnail={bun.image}
             />
           </div>
         ) : null}
@@ -148,12 +149,17 @@ export const BurgerConstructor = () => {
             type="primary"
             size="large"
             htmlType="button"
-            onClick={toggleOrderModal}
+            onClick={handleOpenModal}
           >
             Оформить заказ
           </Button>
         </div>
       </div>
+      {isOrderPopupOpened && (
+        <Modal onClose={handleCloseOrder} title={""}>
+          <OrderDetails />
+        </Modal>
+      )}
     </div>
   );
 };

@@ -1,13 +1,15 @@
 import styles from "./OrderDetails.module.css";
 import doneIcon from "../../images/graphics.svg";
-import { useContext } from "react";
-import { BurgerConstructorContext } from "../../utils/BurgerConstructorContext";
+import { useSelector } from "react-redux";
 
 const OrderDetails = () => {
-  const { orderNum } = useContext(BurgerConstructorContext);
+  const { orderNum } = useSelector((state) => state.orderDetails);
+
   return (
     <div>
-      <p className="mt-30 text text_type_digits-large">{orderNum}</p>
+      <p className="mt-30 text text_type_digits-large">
+        {orderNum?.order?.number || ""}
+      </p>
       <p className={`${styles.mediumText} mt-8 text text_type_main-medium`}>
         идентефикатор заказа
       </p>
