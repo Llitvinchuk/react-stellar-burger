@@ -108,10 +108,7 @@ export const BurgerConstructor = () => {
               .fill(element)
               .map((el, index) => {
                 return (
-                  <div
-                    key={`${element.id}-${index}`}
-                    className={styles.listItem}
-                  >
+                  <div key={element.key} className={styles.listItem}>
                     <DragIcon type="primary" />
                     <div key={element.id} className="w-full">
                       <BurgerIngredientMove
