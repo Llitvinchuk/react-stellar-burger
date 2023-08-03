@@ -9,7 +9,7 @@ const IngredientDetails = () => {
   return (
     <div>
       <div className={`${styles.image} mt-25`}>
-        <img src={popupIngredient.image_large} alt={"Фото ингредиента"} />
+        <img src={popupIngredient.image_large} alt={popupIngredient.name} />
       </div>
 
       <p className={`${styles.name} mt-4 text text_type_main-medium`}>
@@ -54,7 +54,3 @@ const IngredientDetails = () => {
 };
 
 export default IngredientDetails;
-
-IngredientDetails.propTypes = {
-  props: ingredientPropType,
-};

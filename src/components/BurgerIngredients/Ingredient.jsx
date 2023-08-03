@@ -4,22 +4,15 @@ import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import Modal from "../Modal/Modal";
+
 import PropTypes from "prop-types";
 import { ingredientPropType } from "../../utils/prop-types";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  closeIngredientDetailsModal,
-  deletePopupIngredient,
-  openIngredientDetailsModal,
-  setPopupIngredient,
-} from "../../services/actions/IngredientDetailsAction";
 import { addBurgerIngredient } from "../../services/actions/BurgerConstructorAction";
 import { useDrag } from "react-dnd";
 
-export const Ingredient = ({ element }) => {
+export const Ingredient = ({ element, handleModal }) => {
   const dispatch = useDispatch();
 
   const [{ isDragging }, drag] = useDrag({
@@ -31,21 +24,9 @@ export const Ingredient = ({ element }) => {
   });
   const opacity = isDragging ? 0.3 : 1;
 
-  const { isPopupIngredientOpened } = useSelector(
-    (state) => state.ingredientDetails
-  );
   const bun = useSelector((state) => state.burger.bun);
 
   const ingredients = useSelector((state) => state.burger.ingredients);
-
-  const handleOpenModalIngredient = (element) => {
-    dispatch(openIngredientDetailsModal());
-    dispatch(setPopupIngredient(element));
-  };
-  const handleCloseModalIngredient = () => {
-    dispatch(closeIngredientDetailsModal());
-    dispatch(deletePopupIngredient());
-  };
 
   const orderType = element.type === "bun" ? "bun" : "ingredients";
   const qty = useMemo(() => {
@@ -73,11 +54,7 @@ export const Ingredient = ({ element }) => {
       <div onClick={onClick} className={styles.counter}>
         <Counter count={qty} size="default" />
       </div>
-      <div
-        onClick={() => {
-          handleOpenModalIngredient(element);
-        }}
-      >
+      <div onClick={() => handleModal(element)}>
         <img
           className="ml-4 mr-4 mb-1"
           alt={element.name}
@@ -89,16 +66,6 @@ export const Ingredient = ({ element }) => {
         <CurrencyIcon type="primary" />
       </div>
       <p className={`text text_type_main-default`}>{element.name}</p>
-      {isPopupIngredientOpened && (
-        <Modal
-          title="Детали ингредиента"
-          onClose={() => {
-            handleCloseModalIngredient();
-          }}
-        >
-          <IngredientDetails />
-        </Modal>
-      )}
     </div>
   );
 };

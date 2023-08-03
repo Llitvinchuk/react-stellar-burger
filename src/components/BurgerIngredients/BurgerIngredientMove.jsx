@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "./BurgerIngredients.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { removeBurgerIngredient } from "../../services/actions/BurgerConstructorAction";
+import { ingredientPropType } from "../../utils/prop-types";
 
 export const BurgerIngredientMove = ({ ingredient, moveIngredientItem }) => {
   const ingredients = useSelector((state) => state.burger.ingredients);
@@ -80,4 +81,7 @@ export const BurgerIngredientMove = ({ ingredient, moveIngredientItem }) => {
       />
     </div>
   );
+};
+BurgerIngredientMove.propTypes = {
+  ingredient: ingredientPropType.isRequired,
 };

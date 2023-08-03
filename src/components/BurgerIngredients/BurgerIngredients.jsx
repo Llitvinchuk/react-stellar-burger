@@ -2,18 +2,40 @@ import React, { useMemo } from "react";
 import styles from "./BurgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Ingredient } from "./Ingredient";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
+import {
+  closeIngredientDetailsModal,
+  deletePopupIngredient,
+  openIngredientDetailsModal,
+  setPopupIngredient,
+} from "../../services/actions/IngredientDetailsAction";
+import Modal from "../Modal/Modal";
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
 
 export const BurgerIngredients = () => {
   const data = useSelector((state) => {
     return state.ingredients.data;
   });
   const [current, setCurrent] = React.useState("buns");
+  const { isPopupIngredientOpened } = useSelector(
+    (state) => state.ingredientDetails
+  );
+
+  const dispatch = useDispatch();
 
   const buns = useMemo(() => {
     return data.filter((item) => item.type === "bun");
   }, [data]);
+
+  const handleOpenModalIngredient = (element) => {
+    dispatch(openIngredientDetailsModal());
+    dispatch(setPopupIngredient(element));
+  };
+  const handleCloseModalIngredient = () => {
+    dispatch(closeIngredientDetailsModal());
+    dispatch(deletePopupIngredient());
+  };
 
   const sauces = useMemo(
     () => data.filter((item) => item.type === "sauce"),
@@ -79,7 +101,11 @@ export const BurgerIngredients = () => {
           </p>
           <div className={styles.buns} ref={bunRef}>
             {buns.map((element) => (
-              <Ingredient key={element._id} element={element} />
+              <Ingredient
+                key={element._id}
+                element={element}
+                handleModal={handleOpenModalIngredient}
+              />
             ))}
           </div>
           <p
@@ -90,7 +116,11 @@ export const BurgerIngredients = () => {
           </p>
           <div className={styles.sauces} ref={sauceRef}>
             {sauces.map((element) => (
-              <Ingredient key={element._id} element={element} />
+              <Ingredient
+                key={element._id}
+                element={element}
+                handleModal={handleOpenModalIngredient}
+              />
             ))}
           </div>
           <p
@@ -101,10 +131,24 @@ export const BurgerIngredients = () => {
           </p>
           <div className={styles.mains} ref={mainRef}>
             {main.map((element) => (
-              <Ingredient key={element._id} element={element} />
+              <Ingredient
+                key={element._id}
+                element={element}
+                handleModal={handleOpenModalIngredient}
+              />
             ))}
           </div>
         </div>
+        {isPopupIngredientOpened && (
+          <Modal
+            title="Детали ингредиента"
+            onClose={() => {
+              handleCloseModalIngredient();
+            }}
+          >
+            <IngredientDetails />
+          </Modal>
+        )}
       </>
     )
   );
