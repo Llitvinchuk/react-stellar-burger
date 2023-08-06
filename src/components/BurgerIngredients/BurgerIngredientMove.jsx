@@ -1,10 +1,10 @@
-import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./BurgerIngredients.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { removeBurgerIngredient } from "../../services/actions/BurgerConstructorAction";
 import { ingredientPropType } from "../../utils/prop-types";
+import { useRef } from "react";
 
 export const BurgerIngredientMove = ({ ingredient, moveIngredientItem }) => {
   const ingredients = useSelector((state) => state.burger.ingredients);
@@ -30,7 +30,7 @@ export const BurgerIngredientMove = ({ ingredient, moveIngredientItem }) => {
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item, monitor) {
+    drop(item, monitor) {
       if (!ref.current) {
         return;
       }
@@ -53,14 +53,14 @@ export const BurgerIngredientMove = ({ ingredient, moveIngredientItem }) => {
       moveIngredientItem(dragIndex, hoverIndex);
       item.index = hoverIndex;
     },
-    drop(item) {
-      const dragIndex = item.index;
-      const hoverIndex = index;
-      if (dragIndex === hoverIndex) {
-        return;
-      }
-      moveIngredientItem(dragIndex, hoverIndex);
-    },
+    // drop(item) {
+    //   const dragIndex = item.index;
+    //   const hoverIndex = index;
+    //   if (dragIndex === hoverIndex) {
+    //     return;
+    //   }
+    //   moveIngredientItem(dragIndex, hoverIndex);
+    // },
   });
 
   const ref = useRef(null);
