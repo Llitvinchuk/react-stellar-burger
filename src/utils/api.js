@@ -9,3 +9,14 @@ export function checkResponse(res) {
   }
   return Promise.reject(`Ошибка ${res.status}`);
 }
+export const fetchOrderData = (ingredients) => {
+  return fetch(`${URL}/orders`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      ingredients,
+    }),
+  });
+};
