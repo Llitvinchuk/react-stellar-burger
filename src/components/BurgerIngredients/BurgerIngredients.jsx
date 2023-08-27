@@ -104,7 +104,7 @@ export const BurgerIngredients = () => {
               <Ingredient
                 key={element._id}
                 element={element}
-                handleModal={handleOpenModalIngredient}
+                // handleModal={handleOpenModalIngredient}
               />
             ))}
           </div>
@@ -119,7 +119,7 @@ export const BurgerIngredients = () => {
               <Ingredient
                 key={element._id}
                 element={element}
-                handleModal={handleOpenModalIngredient}
+                // handleModal={handleOpenModalIngredient}
               />
             ))}
           </div>
@@ -134,12 +134,12 @@ export const BurgerIngredients = () => {
               <Ingredient
                 key={element._id}
                 element={element}
-                handleModal={handleOpenModalIngredient}
+                // handleModal={handleOpenModalIngredient}
               />
             ))}
           </div>
         </div>
-        {isPopupIngredientOpened && (
+        {/* {isPopupIngredientOpened && (
           <Modal
             title="Детали ингредиента"
             onClose={() => {
@@ -148,7 +148,7 @@ export const BurgerIngredients = () => {
           >
             <IngredientDetails />
           </Modal>
-        )}
+        )} */}
       </>
     )
   );

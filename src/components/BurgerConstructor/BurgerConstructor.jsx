@@ -21,6 +21,8 @@ import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import { useDrop } from "react-dnd";
 import { BurgerIngredientMove } from "../BurgerIngredients/BurgerIngredientMove";
+import { useAuth } from "../../utils/auth";
+import { useNavigate } from "react-router-dom";
 
 export const BurgerConstructor = () => {
   const dispatch = useDispatch();
@@ -75,6 +77,16 @@ export const BurgerConstructor = () => {
     () => ingredients.map((m) => m._id),
     [ingredients]
   );
+  const auth = useAuth();
+  const navigate = useNavigate();
+
+  function onClick() {
+    if (!auth.user) {
+      navigate("/login");
+    } else {
+      handleOpenModal();
+    }
+  }
 
   const handleOpenModal = useCallback(() => {
     dispatch(openOrderDetailsModal());
@@ -146,7 +158,7 @@ export const BurgerConstructor = () => {
             type="primary"
             size="large"
             htmlType="button"
-            onClick={handleOpenModal}
+            onClick={onClick}
           >
             Оформить заказ
           </Button>

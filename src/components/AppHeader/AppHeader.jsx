@@ -6,39 +6,66 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useAuth } from "../../utils/auth";
+import { NavLink, useLocation } from "react-router-dom";
 
 export const AppHeader = () => {
+  const auth = useAuth();
+  const location = useLocation();
   return (
     <header>
       <nav>
-        <a
-          href=""
+        <NavLink
+          to={{ pathname: "/" }}
           className={`${styles.constructor} text text_type_main-default  mr-2`}
         >
           <div className={"ml-5 mr-2 mt-4 mb-4"}>
-            <BurgerIcon type="primary" />
+            <BurgerIcon
+              type={location.pathname === "/" ? "primary" : "secondary"}
+            />
           </div>
-          <p className={`text text_type_main-default`}>Конструктор</p>
-        </a>
-        <a href="" className={`${styles.constructor}`}>
+          <p
+            className={`text text_type_main-default ${
+              location.pathname === "/" ? "" : "text_color_inactive"
+            }`}
+          >
+            Конструктор
+          </p>
+        </NavLink>
+        <NavLink href="" className={`${styles.constructor}`}>
           <div className={"ml-5 mr-2 mt-4 mb-4"}>
-            <ListIcon type="secondary" />
+            <ListIcon
+              type={location.pathname === "/orders" ? "primary" : "secondary"}
+            />
           </div>
-          <p className={"text text_type_main-default text_color_inactive"}>
+          <p
+            className={`text text_type_main-default ${
+              location.pathname === "/orders" ? "" : "text_color_inactive"
+            } ml-2`}
+          >
             Лента заказов
           </p>
-        </a>
+        </NavLink>
         <div className={`${styles.logo} ${styles.constructor}`}>
           <Logo />
         </div>
-        <a href="" className={`${styles.constructor} ${styles.profile}`}>
+        <NavLink
+          to={auth.user ? { pathname: "/profile" } : { pathname: "/login" }}
+          className={`${styles.constructor} ${styles.profile}`}
+        >
           <div className={"ml-5 mr-2 mt-4 mb-4"}>
-            <ProfileIcon type="secondary" />
+            <ProfileIcon
+              type={location.pathname === "/login" ? "primary" : "secondary"}
+            />
           </div>
-          <p className={"text text_type_main-default text_color_inactive"}>
+          <p
+            className={`text text_type_main-default ${
+              location.pathname === "/login" ? "" : "text_color_inactive"
+            } ml-2`}
+          >
             Личный кабинет
           </p>
-        </a>
+        </NavLink>
       </nav>
     </header>
   );
