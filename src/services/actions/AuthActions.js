@@ -1,10 +1,10 @@
-import { request, requestWithTokenRefresh } from "../../utils/api";
+import { request, fetchWithRefresh } from "../../utils/api";
 
-const PASSWORD_RESET_PENDING = "PASSWORD_RESET_PENDING";
-const CLEAR_PASSWORD_RESET = "CLEAR_PASSWORD_RESET";
-const REGISTER_USER = "REGISTER_USER";
+const PASSWORD_RECOVERY = "PASSWORD_RECOVERY";
+const PASSWORD_RESET = "PASSWORD_RESET";
+const REGISTRATION_USER = "REGISTRATION_USER";
 const LOGIN_USER = "LOGIN_USER";
-const SET_USER = "SET_USER";
+const GET_USER = "GET_USER";
 const UPDATE_USER = "UPDATE_USER";
 const LOGOUT_USER = "LOGOUT_USER";
 
@@ -16,7 +16,7 @@ export const passwordRecoveryRequest = (email) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
-      dispatch({ type: PASSWORD_RESET_PENDING });
+      dispatch({ type: PASSWORD_RECOVERY });
     } catch (err) {
       console.log(err);
     }
@@ -31,7 +31,7 @@ export const passwordResetRequest = (password, code) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password, token: code }),
       });
-      dispatch({ type: CLEAR_PASSWORD_RESET });
+      dispatch({ type: PASSWORD_RESET });
     } catch (err) {
       console.log(err);
     }
@@ -49,7 +49,7 @@ export const registerRequest = (user) => {
 
       localStorage.setItem("accessToken", response.accessToken);
       localStorage.setItem("refreshToken", response.refreshToken);
-      dispatch({ type: REGISTER_USER, user: response.user });
+      dispatch({ type: REGISTRATION_USER, user: response.user });
     } catch (err) {
       console.log(err);
     }
@@ -77,7 +77,7 @@ export const loginRequest = (user) => {
 export const userDataRequest = () => {
   return async (dispatch) => {
     try {
-      const response = await requestWithTokenRefresh("/auth/user", {
+      const response = await fetchWithRefresh("/auth/user", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -85,7 +85,7 @@ export const userDataRequest = () => {
         },
       });
 
-      dispatch({ type: SET_USER, user: response.user });
+      dispatch({ type: GET_USER, user: response.user });
     } catch (err) {
       console.log(err);
     }
@@ -95,7 +95,7 @@ export const userDataRequest = () => {
 export const updateDataRequest = (user) => {
   return async (dispatch) => {
     try {
-      const response = await requestWithTokenRefresh("/auth/user", {
+      const response = await fetchWithRefresh("/auth/user", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

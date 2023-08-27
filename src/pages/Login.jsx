@@ -20,7 +20,6 @@ export const LoginPage = () => {
     navigate("/forgot-password");
   };
 
-  const auth = useAuth();
   const dispatch = useDispatch();
 
   const [form, setValue] = useState(() => ({ email: "", password: "" }));

@@ -1,15 +1,15 @@
-const PASSWORD_RESET_PENDING = "PASSWORD_RESET_PENDING";
-const CLEAR_PASSWORD_RESET = "CLEAR_PASSWORD_RESET";
-const REGISTER_USER = "REGISTER_USER";
+const PASSWORD_RECOVERY = "PASSWORD_RECOVERY";
+const PASSWORD_RESET = "PASSWORD_RESET";
+const REGISTRATION_USER = "REGISTRATION_USER";
 const LOGIN_USER = "LOGIN_USER";
-const SET_USER = "SET_USER";
+const GET_USER = "GET_USER";
 const UPDATE_USER = "UPDATE_USER";
 const LOGOUT_USER = "LOGOUT_USER";
 
 const initialState = {
   user: null,
-  isAuthorized: false,
-  isPasswordResetPending: false,
+  passwordReset: false,
+  authUser: false,
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -18,41 +18,42 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.user,
-        isAuthorized: true,
-      };
-    case REGISTER_USER:
-      return {
-        ...state,
-        user: action.user,
-        isAuthorized: true,
+        authUser: true,
       };
     case LOGOUT_USER:
       return {
         ...state,
         user: null,
-        isAuthorized: false,
+        authUser: false,
       };
-    case SET_USER:
+    case REGISTRATION_USER:
       return {
         ...state,
         user: action.user,
-        isAuthorized: true,
+        authUser: true,
+      };
+
+    case GET_USER:
+      return {
+        ...state,
+        user: action.user,
+        authUser: true,
       };
     case UPDATE_USER:
       return {
         ...state,
         user: action.user,
-        isAuthorized: true,
+        authUser: true,
       };
-    case PASSWORD_RESET_PENDING:
+    case PASSWORD_RECOVERY:
       return {
         ...state,
-        isPasswordResetPending: true,
+        passwordReset: true,
       };
-    case CLEAR_PASSWORD_RESET:
+    case PASSWORD_RESET:
       return {
         ...state,
-        isPasswordResetPending: false,
+        passwordReset: false,
       };
     default:
       return state;
