@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import PropTypes from "prop-types";
-import { userDataRequest } from "../../utils/api";
+import { userDataRequest } from "../../services/actions/AuthActions";
 
 export default function ProtectedRouteElement({ element }) {
   const [isUserLoaded, setUserLoaded] = useState(false);

@@ -5,6 +5,12 @@ export const URL = "https://norma.nomoreparties.space/api";
 export function getIngredients() {
   return fetch(`${URL}/ingredients`).then(checkResponse);
 }
+export const request = (path, options) => {
+  return fetch(`${URL}${path}`, options)
+    .then(handleResponse)
+    .then(checkResponse);
+};
+
 export function checkResponse(res) {
   if (res.ok) {
     return res.json();
@@ -22,23 +28,23 @@ export const fetchOrderData = (ingredients) => {
     }),
   });
 };
-// export const loginRequest = async (form) => {
-//   return await fetch(`${URL}/auth/login`, {
-//     method: "POST",
-//     mode: "cors",
-//     cache: "no-cache",
-//     credentials: "same-origin",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     redirect: "follow",
-//     referrerPolicy: "no-referrer",
-//     body: JSON.stringify({
-//       email: form.email,
-//       password: form.password,
-//     }),
-//   });
-// };
+export const loginRequest = async (form) => {
+  return await fetch(`${URL}/auth/login`, {
+    method: "POST",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+    body: JSON.stringify({
+      email: form.email,
+      password: form.password,
+    }),
+  });
+};
 
 export const registerRequest = async (form) => {
   return await fetch(`${URL}/auth/register`, {
@@ -152,12 +158,6 @@ const handleResponse = (res) => {
     return res.json();
   }
   return res.json().then((err) => Promise.reject(err));
-};
-
-export const request = (path, options) => {
-  return fetch(`${URL}${path}`, options)
-    .then(handleResponse)
-    .then(checkResponse);
 };
 
 export const requestWithTokenRefresh = (path, options) => {
