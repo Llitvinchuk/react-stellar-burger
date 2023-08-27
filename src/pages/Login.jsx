@@ -12,6 +12,14 @@ import { loginRequest } from "../services/actions/AuthActions";
 export const LoginPage = () => {
   const navigate = useNavigate();
 
+  const authUser = useSelector((store) => store.authReducer.authUser);
+
+  useEffect(() => {
+    if (authUser) {
+      navigate("/profile");
+    }
+  }, [authUser, navigate]);
+
   const registrButtonClick = () => {
     navigate("/register");
   };
@@ -38,7 +46,7 @@ export const LoginPage = () => {
       <h2 className="text text_type_main-large mb-6">Вход</h2>
       <div className="mb-6">
         <Input
-          value={form.email}
+          value={form.email || ""}
           type={"email"}
           placeholder={"E-mail"}
           name={"email"}
@@ -47,7 +55,7 @@ export const LoginPage = () => {
       </div>
       <div className="mb-6">
         <Input
-          value={form.password}
+          value={form.password || ""}
           type={"password"}
           placeholder={"Пароль"}
           name={"password"}

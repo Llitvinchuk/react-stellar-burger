@@ -72,7 +72,7 @@ export const ProfilePage = () => {
         <form className={`${styles.inputs} ml-15`} onSubmit={onSubmit}>
           <div className="mb-6">
             <Input
-              value={form.name}
+              value={form?.name || ""}
               type={"text"}
               placeholder={"Имя"}
               name={"name"}
@@ -85,7 +85,7 @@ export const ProfilePage = () => {
           </div>
           <div className="mb-6">
             <Input
-              value={form.email}
+              value={form?.email || ""}
               type={"email"}
               placeholder={"Логин"}
               name={"email"}
@@ -98,7 +98,7 @@ export const ProfilePage = () => {
           </div>
           <div className="mb-6">
             <Input
-              value={form.password}
+              value={form?.password || ""}
               type={"password"}
               placeholder={"Пароль"}
               name={"password"}

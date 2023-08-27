@@ -78,10 +78,13 @@ export const BurgerConstructor = () => {
     [ingredients]
   );
   const auth = useAuth();
+
+  const authUser = useSelector((store) => store.authReducer.authUser);
+
   const navigate = useNavigate();
 
   function onClick() {
-    if (!auth.user) {
+    if (!authUser) {
       navigate("/login");
     } else {
       handleOpenModal();

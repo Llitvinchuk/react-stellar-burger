@@ -2,16 +2,22 @@ import { useSelector } from "react-redux";
 import { ingredientPropType } from "../../utils/prop-types";
 import styles from "./IngredientDetails.module.css";
 import { useParams } from "react-router-dom";
+import { useMemo } from "react";
 
 const IngredientDetails = () => {
   const popupIngredient = useSelector(
     (state) => state.ingredientDetails.popupIngredient
   );
+
   const ingredients = useSelector((state) => state.ingredients.data);
 
   const { id } = useParams();
 
   const item = ingredients.find((el) => el._id === id);
+
+  if (!item) {
+    return <></>;
+  }
 
   return (
     <div>

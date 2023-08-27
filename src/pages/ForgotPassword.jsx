@@ -35,7 +35,7 @@ export const ForgotPassword = () => {
       <h2 className="text text_type_main-large mb-6">Восстановление пароля</h2>
       <div className="mb-6">
         <Input
-          value={form.email}
+          value={form.email || ""}
           type={"email"}
           placeholder={"Укажите e-mail"}
           name={"email"}
