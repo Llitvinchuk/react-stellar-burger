@@ -10,6 +10,9 @@ import { useAuth } from "../../utils/auth";
 import { NavLink, useLocation, useMatch } from "react-router-dom";
 
 export const AppHeader = () => {
+  const isMainPage = useMatch("/");
+  const isOrderPage = useMatch("/orders");
+  const isProfilePage = useMatch("/profile/*");
   const auth = useAuth();
   const location = useLocation();
   return (
@@ -20,27 +23,23 @@ export const AppHeader = () => {
           className={`${styles.constructor} text text_type_main-default  mr-2`}
         >
           <div className={"ml-5 mr-2 mt-4 mb-4"}>
-            <BurgerIcon
-              type={location.pathname === "/" ? "primary" : "secondary"}
-            />
+            <BurgerIcon type={isMainPage ? "primary" : "secondary"} />
           </div>
           <p
             className={`text text_type_main-default ${
-              location.pathname === "/" ? "" : "text_color_inactive"
+              isMainPage ? "" : "text_color_inactive"
             }`}
           >
             Конструктор
           </p>
         </NavLink>
-        <NavLink href="" className={`${styles.constructor}`}>
+        <NavLink to="/orders" className={`${styles.constructor}`}>
           <div className={"ml-5 mr-2 mt-4 mb-4"}>
-            <ListIcon
-              type={location.pathname === "/orders" ? "primary" : "secondary"}
-            />
+            <ListIcon type={isOrderPage ? "primary" : "secondary"} />
           </div>
           <p
             className={`text text_type_main-default ${
-              location.pathname === "/orders" ? "" : "text_color_inactive"
+              isOrderPage ? "" : "text_color_inactive"
             } ml-2`}
           >
             Лента заказов
@@ -54,13 +53,11 @@ export const AppHeader = () => {
           className={`${styles.constructor} ${styles.profile}`}
         >
           <div className={"ml-5 mr-2 mt-4 mb-4"}>
-            <ProfileIcon
-              type={location.pathname === "/profile" ? "primary" : "secondary"}
-            />
+            <ProfileIcon type={isProfilePage ? "primary" : "secondary"} />
           </div>
           <p
             className={`text text_type_main-default ${
-              location.pathname === "/profile" ? "" : "text_color_inactive"
+              isProfilePage ? "" : "text_color_inactive"
             } ml-2`}
           >
             Личный кабинет
