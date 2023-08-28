@@ -9,10 +9,14 @@ import {
 import { userDataRequest } from "../utils/api";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { updateDataRequest } from "../services/actions/AuthActions";
+import {
+  logoutRequest,
+  updateDataRequest,
+} from "../services/actions/AuthActions";
 
 export const ProfilePage = () => {
   const dispatch = useDispatch();
+
   const [form, setValue] = useState({
     name: "",
     password: "",
@@ -31,6 +35,10 @@ export const ProfilePage = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(updateDataRequest(form));
+  };
+
+  const logoutClick = () => {
+    dispatch(logoutRequest());
   };
 
   return (
@@ -54,12 +62,13 @@ export const ProfilePage = () => {
             История заказов
           </NavLink>
           <NavLink
-            to={"/logout"}
+            to={"/"}
             className={({ isActive }) =>
               isActive
                 ? `${styles.link} text text_type_main-medium ${styles.link_active}`
                 : `${styles.link} text text_type_main-medium text_color_inactive`
             }
+            onClick={logoutClick}
           >
             Выход
           </NavLink>

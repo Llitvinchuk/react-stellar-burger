@@ -1,4 +1,4 @@
-import { request, fetchWithRefresh } from "../../utils/api";
+import { request, fetchWithRefresh, URL } from "../../utils/api";
 
 const PASSWORD_RECOVERY = "PASSWORD_RECOVERY";
 const PASSWORD_RESET = "PASSWORD_RESET";
@@ -77,7 +77,7 @@ export const loginRequest = (user) => {
 export const userDataRequest = () => {
   return async (dispatch) => {
     try {
-      const response = await fetchWithRefresh("/auth/user", {
+      const response = await fetchWithRefresh(`${URL}/auth/user`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -95,7 +95,7 @@ export const userDataRequest = () => {
 export const updateDataRequest = (user) => {
   return async (dispatch) => {
     try {
-      const response = await fetchWithRefresh("/auth/user", {
+      const response = await fetchWithRefresh(`${URL}/auth/user`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

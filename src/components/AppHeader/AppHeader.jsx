@@ -7,7 +7,7 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useAuth } from "../../utils/auth";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useMatch } from "react-router-dom";
 
 export const AppHeader = () => {
   const auth = useAuth();
@@ -55,12 +55,12 @@ export const AppHeader = () => {
         >
           <div className={"ml-5 mr-2 mt-4 mb-4"}>
             <ProfileIcon
-              type={location.pathname === "/login" ? "primary" : "secondary"}
+              type={location.pathname === "/profile" ? "primary" : "secondary"}
             />
           </div>
           <p
             className={`text text_type_main-default ${
-              location.pathname === "/login" ? "" : "text_color_inactive"
+              location.pathname === "/profile" ? "" : "text_color_inactive"
             } ml-2`}
           >
             Личный кабинет
