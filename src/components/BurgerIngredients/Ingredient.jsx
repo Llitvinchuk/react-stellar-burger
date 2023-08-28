@@ -11,9 +11,14 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { addBurgerIngredient } from "../../services/actions/BurgerConstructorAction";
 import { useDrag } from "react-dnd";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const Ingredient = ({ element, handleModal }) => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const background = location.state && location.state.background;
 
   const [{ isDragging }, drag] = useDrag({
     type: "ingredient",
@@ -50,23 +55,24 @@ export const Ingredient = ({ element, handleModal }) => {
   };
 
   return (
-    <div className={styles.ingredient} style={{ opacity }} ref={drag}>
+    <Link
+      to={`/ingredients/${element._id}`}
+      state={{ background: location }}
+      className={styles.ingredient}
+      style={{ opacity }}
+      ref={drag}
+    >
       <div onClick={onClick} className={styles.counter}>
         <Counter count={qty} size="default" />
       </div>
-      <div onClick={() => handleModal(element)}>
-        <img
-          className="ml-4 mr-4 mb-1"
-          alt={element.name}
-          src={element.image}
-        />
-      </div>
+      <img className="ml-4 mr-4 mb-1" alt={element.name} src={element.image} />
+
       <div className={styles.price}>
         <p className="text text_type_digits-default">{element.price}</p>
         <CurrencyIcon type="primary" />
       </div>
       <p className={`text text_type_main-default`}>{element.name}</p>
-    </div>
+    </Link>
   );
 };
 

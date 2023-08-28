@@ -10,6 +10,8 @@ import { composeWithDevTools } from "redux-devtools-extension";
 
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
+import { ProvideAuth } from "./utils/auth";
+import { BrowserRouter } from "react-router-dom";
 
 const composeEnhancers =
   typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -27,7 +29,11 @@ const state = store.getState((state) => {
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <ProvideAuth>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ProvideAuth>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

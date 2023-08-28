@@ -1,19 +1,32 @@
 import { useSelector } from "react-redux";
 import { ingredientPropType } from "../../utils/prop-types";
 import styles from "./IngredientDetails.module.css";
+import { useParams } from "react-router-dom";
+import { useMemo } from "react";
 
 const IngredientDetails = () => {
   const popupIngredient = useSelector(
     (state) => state.ingredientDetails.popupIngredient
   );
+
+  const ingredients = useSelector((state) => state.ingredients.data);
+
+  const { id } = useParams();
+
+  const item = ingredients.find((el) => el._id === id);
+
+  if (!item) {
+    return <></>;
+  }
+
   return (
     <div>
       <div className={`${styles.image} mt-25`}>
-        <img src={popupIngredient.image_large} alt={popupIngredient.name} />
+        <img src={item.image_large} alt={item.name} />
       </div>
 
       <p className={`${styles.name} mt-4 text text_type_main-medium`}>
-        {popupIngredient.name}
+        {item.name}
       </p>
       <div className={`${styles.compound} mt-8 mb-15`}>
         <div>
@@ -21,7 +34,7 @@ const IngredientDetails = () => {
             Калории, ккал
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {popupIngredient.calories}
+            {item.calories}
           </p>
         </div>
         <div>
@@ -29,7 +42,7 @@ const IngredientDetails = () => {
             Белки, г
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {popupIngredient.proteins}
+            {item.proteins}
           </p>
         </div>
         <div>
@@ -37,7 +50,7 @@ const IngredientDetails = () => {
             Жиры, г
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {popupIngredient.fat}
+            {item.fat}
           </p>
         </div>
         <div>
@@ -45,7 +58,7 @@ const IngredientDetails = () => {
             Углеводы, г
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {popupIngredient.carbohydrates}
+            {item.carbohydrates}
           </p>
         </div>
       </div>

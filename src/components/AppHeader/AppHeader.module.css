@@ -34,3 +34,17 @@ nav {
   justify-content: center;
   align-items: center;
 }
+.link {
+  text-decoration: none;
+  display: flex;
+  line-height: 24px;
+}
+
+.text {
+  display: block;
+  line-height: 24px;
+}
+
+.active {
+  color: var(--text-primary-color);
+}

@@ -101,11 +101,7 @@ export const BurgerIngredients = () => {
           </p>
           <div className={styles.buns} ref={bunRef}>
             {buns.map((element) => (
-              <Ingredient
-                key={element._id}
-                element={element}
-                handleModal={handleOpenModalIngredient}
-              />
+              <Ingredient key={element._id} element={element} />
             ))}
           </div>
           <p
@@ -116,11 +112,7 @@ export const BurgerIngredients = () => {
           </p>
           <div className={styles.sauces} ref={sauceRef}>
             {sauces.map((element) => (
-              <Ingredient
-                key={element._id}
-                element={element}
-                handleModal={handleOpenModalIngredient}
-              />
+              <Ingredient key={element._id} element={element} />
             ))}
           </div>
           <p
@@ -131,24 +123,10 @@ export const BurgerIngredients = () => {
           </p>
           <div className={styles.mains} ref={mainRef}>
             {main.map((element) => (
-              <Ingredient
-                key={element._id}
-                element={element}
-                handleModal={handleOpenModalIngredient}
-              />
+              <Ingredient key={element._id} element={element} />
             ))}
           </div>
         </div>
-        {isPopupIngredientOpened && (
-          <Modal
-            title="Детали ингредиента"
-            onClose={() => {
-              handleCloseModalIngredient();
-            }}
-          >
-            <IngredientDetails />
-          </Modal>
-        )}
       </>
     )
   );

@@ -33,5 +33,4 @@ export default Modal;
 
 Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
 };
