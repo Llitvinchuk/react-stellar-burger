@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../utils/auth";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 import {
   Input,
@@ -14,8 +14,12 @@ import {
   updateDataRequest,
 } from "../services/actions/AuthActions";
 
+const styleActive = `${styles.link} ${styles.link_active} text text_type_main-medium`;
+const styleInactive = `${styles.link} text text_type_main-medium text_color_inactive`;
+
 export const ProfilePage = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const [form, setValue] = useState({
     name: "",
@@ -47,27 +51,25 @@ export const ProfilePage = () => {
         <div>
           <NavLink
             to={"/profile"}
-            className={`${styles.link} text text_type_main-medium ${styles.link_active}`}
+            className={
+              location.pathname === "/profile" ? styleActive : styleInactive
+            }
           >
             Профиль
           </NavLink>
           <NavLink
             to={"/profile/orders"}
-            className={({ isActive }) =>
-              isActive
-                ? `${styles.link} text text_type_main-medium ${styles.link_active}`
-                : `${styles.link} text text_type_main-medium text_color_inactive`
+            className={
+              location.pathname === "/profile/orders"
+                ? styleActive
+                : styleInactive
             }
           >
             История заказов
           </NavLink>
           <NavLink
             to={"/"}
-            className={({ isActive }) =>
-              isActive
-                ? `${styles.link} text text_type_main-medium ${styles.link_active}`
-                : `${styles.link} text text_type_main-medium text_color_inactive`
-            }
+            className={location.pathname === "/" ? styleActive : styleInactive}
             onClick={logoutClick}
           >
             Выход
