@@ -8,15 +8,6 @@ import styles from "./styles.module.css";
 import OrderModal from "../components/Order/OrderModal";
 
 export const FeedInfo = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch({ type: WS_CONNECTION_START, payload: `/all` });
-    return () => {
-      dispatch({ type: WS_CONNECTION_CLOSED });
-    };
-  }, [dispatch]);
-
   return (
     <div className={styles.readyOrder}>
       <OrderModal />

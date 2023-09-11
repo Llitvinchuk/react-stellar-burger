@@ -4,7 +4,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./styles.module.css";
-import { useAuth } from "../utils/auth";
+
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { passwordRecoveryRequest } from "../services/actions/AuthActions";

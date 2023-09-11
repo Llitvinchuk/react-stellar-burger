@@ -22,7 +22,6 @@ export const postOrder = (array) => {
   return function (dispatch) {
     dispatch(getOrderRequest());
     fetchOrderData(array)
-      .then(checkResponse)
       .then((res) => {
         dispatch(getOrderSuccess(res));
       })

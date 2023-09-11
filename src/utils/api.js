@@ -56,7 +56,6 @@ export const fetchWithRefresh = async (url, options) => {
 };
 
 export const fetchOrderData = (ingredients) => {
-  console.log("localStorage:", localStorage.getItem("accessToken"));
   return fetch(`${URL}/orders`, {
     method: "POST",
     headers: {
@@ -66,8 +65,9 @@ export const fetchOrderData = (ingredients) => {
     body: JSON.stringify({
       ingredients,
     }),
-  });
+  }).then(checkResponse);
 };
+
 export const loginRequest = async (form) => {
   return await fetch(`${URL}/auth/login`, {
     method: "POST",
@@ -83,7 +83,7 @@ export const loginRequest = async (form) => {
       email: form.email,
       password: form.password,
     }),
-  });
+  }).then(checkResponse);
 };
 
 export const registerRequest = async (form) => {
@@ -102,7 +102,7 @@ export const registerRequest = async (form) => {
       email: form.email,
       password: form.password,
     }),
-  });
+  }).then(checkResponse);
 };
 
 export const passwordResetRequest = async (form) => {
@@ -120,7 +120,7 @@ export const passwordResetRequest = async (form) => {
       password: form.password,
       token: form.token,
     }),
-  });
+  }).then(checkResponse);
 };
 
 export const passwordRecoveryRequest = async (form) => {
@@ -137,7 +137,7 @@ export const passwordRecoveryRequest = async (form) => {
     body: JSON.stringify({
       email: form.email,
     }),
-  });
+  }).then(checkResponse);
 };
 
 export const logoutRequest = async (user) => {
@@ -155,7 +155,7 @@ export const logoutRequest = async (user) => {
     body: JSON.stringify({
       token: user.refreshToken,
     }),
-  });
+  }).then(checkResponse);
 };
 
 export const userDataRequest = async () => {
@@ -170,7 +170,7 @@ export const userDataRequest = async () => {
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
-  });
+  }).then(checkResponse);
 };
 
 export const updateDataRequest = async (form) => {
@@ -190,5 +190,5 @@ export const updateDataRequest = async (form) => {
       email: form.email,
       password: form.password,
     }),
-  });
+  }).then(checkResponse);
 };

@@ -21,7 +21,7 @@ import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import { useDrop } from "react-dnd";
 import { BurgerIngredientMove } from "../BurgerIngredients/BurgerIngredientMove";
-import { useAuth } from "../../utils/auth";
+
 import { useNavigate } from "react-router-dom";
 
 export const BurgerConstructor = () => {
@@ -99,6 +99,7 @@ export const BurgerConstructor = () => {
 
   const handleCloseOrder = () => {
     dispatch(closeOrderDetailsModal());
+    navigate("/");
   };
 
   return (

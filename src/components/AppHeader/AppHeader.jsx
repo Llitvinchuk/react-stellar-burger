@@ -5,14 +5,13 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useAuth } from "../../utils/auth";
+
 import { NavLink, useLocation, useMatch } from "react-router-dom";
 
 export const AppHeader = () => {
   const isMainPage = useMatch("/");
   const isOrderPage = useMatch("/feed");
   const isProfilePage = useMatch("/profile/*");
-  const auth = useAuth();
 
   return (
     <header>
@@ -48,7 +47,7 @@ export const AppHeader = () => {
           <Logo />
         </div>
         <NavLink
-          to={auth.user ? { pathname: "/profile" } : { pathname: "/login" }}
+          to="/profile"
           className={`${styles.constructor} ${styles.profile}`}
         >
           <div className={"ml-5 mr-2 mt-4 mb-4"}>
