@@ -1,6 +1,8 @@
 import { getCookie } from "./getCookie";
 
 export const URL = "https://norma.nomoreparties.space/api";
+export const WS_FEED_URL = "wss://norma.nomoreparties.space/orders/all";
+export const WS_PROFILE_URL = "wss://norma.nomoreparties.space/orders";
 
 export function getIngredients() {
   return fetch(`${URL}/ingredients`).then(checkResponse);
@@ -54,10 +56,12 @@ export const fetchWithRefresh = async (url, options) => {
 };
 
 export const fetchOrderData = (ingredients) => {
+  console.log("localStorage:", localStorage.getItem("accessToken"));
   return fetch(`${URL}/orders`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: localStorage.getItem("accessToken"),
     },
     body: JSON.stringify({
       ingredients,
@@ -144,7 +148,7 @@ export const logoutRequest = async (user) => {
     credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + getCookie("token"),
+      Authorization: localStorage.getItem("accessToken"),
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
@@ -162,7 +166,7 @@ export const userDataRequest = async () => {
     credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + getCookie("token"),
+      Authorization: localStorage.getItem("accessToken"),
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
@@ -177,7 +181,7 @@ export const updateDataRequest = async (form) => {
     credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + getCookie("token"),
+      Authorization: localStorage.getItem("accessToken"),
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",

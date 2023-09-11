@@ -77,7 +77,6 @@ export const BurgerConstructor = () => {
     () => ingredients.map((m) => m._id),
     [ingredients]
   );
-  const auth = useAuth();
 
   const authUser = useSelector((store) => store.authReducer.authUser);
 
@@ -93,7 +92,7 @@ export const BurgerConstructor = () => {
 
   const handleOpenModal = useCallback(() => {
     dispatch(openOrderDetailsModal());
-    const allIngredients = [...orderedIngredients, bun._id];
+    const allIngredients = [...orderedIngredients, bun?._id];
 
     dispatch(postOrder(allIngredients));
   }, [dispatch, orderedIngredients, bun]);

@@ -1,12 +1,8 @@
 import styles from "./App.module.css";
 import { AppHeader } from "../AppHeader/AppHeader";
-import { BurgerIngredients } from "../BurgerIngredients/BurgerIngredients";
-import { BurgerConstructor } from "../BurgerConstructor/BurgerConstructor";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchIngredients } from "../../services/actions/IngredientAction";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 
 import Menu from "../Menu/Menu";
@@ -19,6 +15,11 @@ import { ProfilePage } from "../../pages/ProfilePage";
 import { IngredientPage } from "../../pages/IngredientSingle";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import { OrderPage } from "../../pages/OrderPage";
+import { Feed } from "../../pages/Feed";
+import { FeedInfo } from "../../pages/FeedInfo";
+import { ProfileUser } from "../../pages/ProfileUser";
+import { OrderInfo } from "../../pages/OrderInfo";
 
 function App() {
   const location = useLocation();
@@ -47,8 +48,15 @@ function App() {
         <Route
           path="/profile"
           element={<ProtectedRouteElement element={<ProfilePage />} />}
-        />
+        >
+          <Route path="/profile" element={<ProfileUser />} />
+          <Route path="/profile/orders" element={<OrderPage />} />
+        </Route>
         <Route path="/ingredients/:id" element={<IngredientPage />} />
+
+        <Route path="/feed" element={<Feed />} />
+        <Route path="/feed/:id" element={<FeedInfo />} />
+        <Route path="/profile/orders/:id" element={<OrderInfo />} />
       </Routes>
       {background && (
         <Routes>
@@ -57,6 +65,22 @@ function App() {
             element={
               <Modal onClose={closeIngredientModal}>
                 <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path="feed/:id"
+            element={
+              <Modal onClose={closeIngredientModal}>
+                <FeedInfo />
+              </Modal>
+            }
+          />
+          <Route
+            path="profile/orders/:id"
+            element={
+              <Modal onClose={closeIngredientModal}>
+                <OrderInfo />
               </Modal>
             }
           />
