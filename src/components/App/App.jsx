@@ -20,6 +20,10 @@ import { Feed } from "../../pages/Feed";
 import { FeedInfo } from "../../pages/FeedInfo";
 import { ProfileUser } from "../../pages/ProfileUser";
 import { OrderInfo } from "../../pages/OrderInfo";
+import {
+  WS_CONNECTION_CLOSED,
+  WS_CONNECTION_START,
+} from "../../services/actions/WebsocketActions";
 
 function App() {
   const location = useLocation();
@@ -28,6 +32,10 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchIngredients());
+    dispatch({ type: WS_CONNECTION_START, payload: `/all` });
+    return () => {
+      dispatch({ type: WS_CONNECTION_CLOSED });
+    };
   }, [dispatch]);
 
   const closeIngredientModal = () => {
@@ -56,7 +64,11 @@ function App() {
 
         <Route path="/feed" element={<Feed />} />
         <Route path="/feed/:id" element={<FeedInfo />} />
-        <Route path="/profile/orders/:id" element={<OrderInfo />} />
+
+        <Route
+          path="/profile/orders/:id"
+          element={<ProtectedRouteElement element={<OrderInfo />} />}
+        />
       </Routes>
       {background && (
         <Routes>

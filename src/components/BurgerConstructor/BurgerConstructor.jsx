@@ -22,7 +22,7 @@ import OrderDetails from "../OrderDetails/OrderDetails";
 import { useDrop } from "react-dnd";
 import { BurgerIngredientMove } from "../BurgerIngredients/BurgerIngredientMove";
 
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const BurgerConstructor = () => {
   const dispatch = useDispatch();
@@ -84,7 +84,7 @@ export const BurgerConstructor = () => {
 
   function onClick() {
     if (!authUser) {
-      navigate("/login");
+      navigate("/login?redirect=/");
     } else {
       handleOpenModal();
     }
