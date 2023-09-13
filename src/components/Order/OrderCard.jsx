@@ -41,11 +41,11 @@ export const OrderCard = ({ order }) => {
 
   const openOrderModal = () => {
     if (location.pathname.indexOf("feed") === -1) {
-      navigate(`/profile/orders/${order._id}`, {
+      navigate(`/profile/orders/${order.number}`, {
         state: { background: location },
       });
     } else {
-      navigate(`/feed/${order._id}`, { state: { background: location } });
+      navigate(`/feed/${order.number}`, { state: { background: location } });
     }
   };
 

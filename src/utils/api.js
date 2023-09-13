@@ -68,6 +68,15 @@ export const fetchOrderData = (ingredients) => {
   }).then(checkResponse);
 };
 
+export const fetchOrderDataByNumber = (number) => {
+  return fetch(`${URL}/orders/${number}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then(checkResponse);
+};
+
 export const loginRequest = async (form) => {
   return await fetch(`${URL}/auth/login`, {
     method: "POST",

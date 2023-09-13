@@ -1,3 +1,4 @@
+import { GET_ORDER_BY_NUMBER_SUCCESS } from "../actions/OrderDetailsAction";
 import {
   WS_CONNECTION_START,
   WS_CONNECTION_SUCCESS,
@@ -105,7 +106,12 @@ export const wsReducer = (state = initialState, action) => {
         total: action.payload.total,
         totalToday: action.payload.totalToday,
       };
-
+    case GET_ORDER_BY_NUMBER_SUCCESS: {
+      return {
+        ...state,
+        orders: [...state.orders, ...action.order.orders],
+      };
+    }
     default:
       return state;
   }

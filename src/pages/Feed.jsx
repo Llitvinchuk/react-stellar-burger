@@ -8,6 +8,13 @@ import { OrderCard } from "../components/Order/OrderCard";
 import styles from "./styles.module.css";
 
 export const Feed = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({ type: WS_CONNECTION_START, payload: `/all` });
+    return () => {
+      dispatch({ type: WS_CONNECTION_CLOSED });
+    };
+  }, [dispatch]);
   const { orders, total, totalToday } = useSelector((store) => ({
     orders: store.wsReducer.orders,
     total: store.wsReducer.total,

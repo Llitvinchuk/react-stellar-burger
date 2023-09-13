@@ -5,11 +5,16 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useLocation } from "react-router-dom";
 import styles from "./Order.module.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+
+import { getOrderByNumber } from "../../services/actions/OrderDetailsAction";
 
 export default function OrderModal() {
   const location = useLocation();
-  const { id } = useParams();
+  const dispatch = useDispatch();
+  const { number } = useParams();
+
   const ingredients = useSelector((state) => {
     return state.ingredients.data;
   });
@@ -19,12 +24,19 @@ export default function OrderModal() {
     userOrders: store.wsReducer.userOrders,
   }));
 
+  useEffect(() => {
+    if (!orders.length) {
+      dispatch(getOrderByNumber(number));
+    }
+  }, []);
+
   const selectedOrders = location.pathname.includes("/profile/orders")
     ? userOrders
     : orders;
 
   const order =
-    selectedOrders && selectedOrders.find((element) => element._id === id);
+    selectedOrders &&
+    selectedOrders.find((element) => element.number === parseInt(number));
 
   order?.ingredients.forEach((order) => {
     const newIngredient = ingredients.find(

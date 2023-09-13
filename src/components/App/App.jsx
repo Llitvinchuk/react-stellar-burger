@@ -32,10 +32,6 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchIngredients());
-    dispatch({ type: WS_CONNECTION_START, payload: `/all` });
-    return () => {
-      dispatch({ type: WS_CONNECTION_CLOSED });
-    };
   }, [dispatch]);
 
   const closeIngredientModal = () => {
@@ -63,10 +59,10 @@ function App() {
         <Route path="/ingredients/:id" element={<IngredientPage />} />
 
         <Route path="/feed" element={<Feed />} />
-        <Route path="/feed/:id" element={<FeedInfo />} />
+        <Route path="/feed/:number" element={<FeedInfo />} />
 
         <Route
-          path="/profile/orders/:id"
+          path="/profile/orders/:number"
           element={<ProtectedRouteElement element={<OrderInfo />} />}
         />
       </Routes>
@@ -84,7 +80,7 @@ function App() {
             }
           />
           <Route
-            path="feed/:id"
+            path="feed/:number"
             element={
               <Modal onClose={closeIngredientModal}>
                 <FeedInfo />
@@ -92,7 +88,7 @@ function App() {
             }
           />
           <Route
-            path="profile/orders/:id"
+            path="profile/orders/:number"
             element={
               <Modal onClose={closeIngredientModal}>
                 <OrderInfo />
