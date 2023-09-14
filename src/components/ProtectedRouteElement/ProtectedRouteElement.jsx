@@ -7,8 +7,9 @@ import { Navigate, useLocation } from "react-router-dom";
 
 export default function ProtectedRouteElement({ element, anonymous = false }) {
   // const [isUserLoaded, setUserLoaded] = useState(false);
-  const isLoggedIn = useSelector((store) => store.authReducer.user);
+  const isLoggedIn = useSelector((store) => store.authReducer.authUser);
   const location = useLocation();
+  const token = localStorage.getItem("accessToken");
 
   const from = location.state?.from || "/";
   // Если разрешен неавторизованный доступ, а пользователь авторизован...
@@ -18,7 +19,7 @@ export default function ProtectedRouteElement({ element, anonymous = false }) {
   }
 
   // Если требуется авторизация, а пользователь не авторизован...
-  if (!anonymous && !isLoggedIn) {
+  if (!anonymous && !isLoggedIn && !token) {
     // ...то отправляем его на страницу логин
     return <Navigate to="/login" state={{ from: location }} />;
   }

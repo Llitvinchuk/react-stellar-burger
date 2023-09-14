@@ -20,10 +20,8 @@ import { Feed } from "../../pages/Feed";
 import { FeedInfo } from "../../pages/FeedInfo";
 import { ProfileUser } from "../../pages/ProfileUser";
 import { OrderInfo } from "../../pages/OrderInfo";
-import {
-  WS_CONNECTION_CLOSED,
-  WS_CONNECTION_START,
-} from "../../services/actions/WebsocketActions";
+
+import { userDataRequest } from "../../services/actions/AuthActions";
 
 function App() {
   const location = useLocation();
@@ -31,6 +29,10 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      dispatch(userDataRequest());
+    }
     dispatch(fetchIngredients());
   }, [dispatch]);
 
@@ -91,7 +93,7 @@ function App() {
             path="profile/orders/:number"
             element={
               <Modal onClose={closeIngredientModal}>
-                <OrderInfo />
+                {<ProtectedRouteElement element={<OrderInfo />} />}
               </Modal>
             }
           />
