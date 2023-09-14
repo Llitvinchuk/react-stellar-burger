@@ -21,8 +21,8 @@ import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import { useDrop } from "react-dnd";
 import { BurgerIngredientMove } from "../BurgerIngredients/BurgerIngredientMove";
-import { useAuth } from "../../utils/auth";
-import { useNavigate } from "react-router-dom";
+
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const BurgerConstructor = () => {
   const dispatch = useDispatch();
@@ -77,7 +77,6 @@ export const BurgerConstructor = () => {
     () => ingredients.map((m) => m._id),
     [ingredients]
   );
-  const auth = useAuth();
 
   const authUser = useSelector((store) => store.authReducer.authUser);
 
@@ -85,7 +84,7 @@ export const BurgerConstructor = () => {
 
   function onClick() {
     if (!authUser) {
-      navigate("/login");
+      navigate("/login?redirect=/");
     } else {
       handleOpenModal();
     }
@@ -93,13 +92,14 @@ export const BurgerConstructor = () => {
 
   const handleOpenModal = useCallback(() => {
     dispatch(openOrderDetailsModal());
-    const allIngredients = [...orderedIngredients, bun._id];
+    const allIngredients = [...orderedIngredients, bun?._id];
 
     dispatch(postOrder(allIngredients));
   }, [dispatch, orderedIngredients, bun]);
 
   const handleCloseOrder = () => {
     dispatch(closeOrderDetailsModal());
+    navigate("/");
   };
 
   return (

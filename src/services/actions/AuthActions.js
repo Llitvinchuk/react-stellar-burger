@@ -1,4 +1,5 @@
 import { request, fetchWithRefresh, URL } from "../../utils/api";
+import { setCookie } from "../../utils/getCookie";
 
 const PASSWORD_RECOVERY = "PASSWORD_RECOVERY";
 const PASSWORD_RESET = "PASSWORD_RESET";
@@ -67,6 +68,7 @@ export const loginRequest = (user) => {
 
       localStorage.setItem("accessToken", response.accessToken);
       localStorage.setItem("refreshToken", response.refreshToken);
+
       dispatch({ type: LOGIN_USER, user: response.user });
     } catch (err) {
       console.log(err);

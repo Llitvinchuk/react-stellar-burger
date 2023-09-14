@@ -5,7 +5,7 @@ import {
 import { useCallback, useState } from "react";
 import styles from "./styles.module.css";
 import { useNavigate, Navigate } from "react-router-dom";
-import { useAuth } from "../utils/auth";
+
 import { useDispatch } from "react-redux";
 import { passwordResetRequest } from "../services/actions/AuthActions";
 
@@ -16,7 +16,6 @@ export const ResPassword = () => {
   const loginClick = () => {
     navigate("/login");
   };
-  let auth = useAuth();
 
   const [form, setValue] = useState({ password: "", code: "" });
 

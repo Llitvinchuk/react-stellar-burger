@@ -49,6 +49,7 @@ export const orderDetailsReducer = (state = initialState, action) => {
         isOrderPopupOpened: false,
       };
     }
+
     default: {
       return state;
     }

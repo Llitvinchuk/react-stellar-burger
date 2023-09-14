@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./AppHeader.module.css";
 import {
   Logo,
@@ -6,15 +5,14 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useAuth } from "../../utils/auth";
+
 import { NavLink, useLocation, useMatch } from "react-router-dom";
 
 export const AppHeader = () => {
   const isMainPage = useMatch("/");
-  const isOrderPage = useMatch("/orders");
+  const isOrderPage = useMatch("/feed");
   const isProfilePage = useMatch("/profile/*");
-  const auth = useAuth();
-  const location = useLocation();
+
   return (
     <header>
       <nav>
@@ -33,7 +31,7 @@ export const AppHeader = () => {
             Конструктор
           </p>
         </NavLink>
-        <NavLink to="/orders" className={`${styles.constructor}`}>
+        <NavLink to="/feed" className={`${styles.constructor}`}>
           <div className={"ml-5 mr-2 mt-4 mb-4"}>
             <ListIcon type={isOrderPage ? "primary" : "secondary"} />
           </div>
@@ -49,7 +47,7 @@ export const AppHeader = () => {
           <Logo />
         </div>
         <NavLink
-          to={auth.user ? { pathname: "/profile" } : { pathname: "/login" }}
+          to="/profile"
           className={`${styles.constructor} ${styles.profile}`}
         >
           <div className={"ml-5 mr-2 mt-4 mb-4"}>

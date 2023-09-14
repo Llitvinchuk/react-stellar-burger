@@ -2,23 +2,32 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import styles from "./styles.module.css";
-import { useNavigate, Navigate } from "react-router-dom";
-import { useAuth } from "../utils/auth";
+import { useNavigate, Navigate, useLocation, redirect } from "react-router-dom";
+
 import { useDispatch, useSelector } from "react-redux";
 import { loginRequest } from "../services/actions/AuthActions";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
 
+  const { search } = useLocation();
+
+  const query = useMemo(() => new URLSearchParams(search), [search]);
+
+  const redirectPath = query?.get("redirect");
+
   const authUser = useSelector((store) => store.authReducer.authUser);
 
   useEffect(() => {
     if (authUser) {
+      if (redirectPath) {
+        return navigate(redirectPath);
+      }
       navigate("/profile");
     }
-  }, [authUser, navigate]);
+  }, [authUser, navigate, redirectPath]);
 
   const registrButtonClick = () => {
     navigate("/register");

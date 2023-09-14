@@ -19,3 +19,6 @@
   flex-grow: 1;
   flex-direction: column;
 }
+.title {
+  line-height: 64px;
+}

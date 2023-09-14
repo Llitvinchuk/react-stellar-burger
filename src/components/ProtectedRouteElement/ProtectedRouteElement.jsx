@@ -2,21 +2,26 @@ import { useEffect, useState } from "react";
 
 import PropTypes from "prop-types";
 import { userDataRequest } from "../../services/actions/AuthActions";
+import { useSelector } from "react-redux";
+import { Navigate, useLocation } from "react-router-dom";
 
-export default function ProtectedRouteElement({ element }) {
-  const [isUserLoaded, setUserLoaded] = useState(false);
+export default function ProtectedRouteElement({ element, anonymous = false }) {
+  // const [isUserLoaded, setUserLoaded] = useState(false);
+  const isLoggedIn = useSelector((store) => store.authReducer.authUser);
+  const location = useLocation();
+  const token = localStorage.getItem("accessToken");
 
-  const init = async () => {
-    await userDataRequest();
-    setUserLoaded(true);
-  };
+  const from = location.state?.from || "/";
+  // Если разрешен неавторизованный доступ, а пользователь авторизован...
+  if (anonymous && isLoggedIn) {
+    // ...то отправляем его на предыдущую страницу
+    return <Navigate to={from} />;
+  }
 
-  useEffect(() => {
-    init();
-  }, []);
-
-  if (!isUserLoaded) {
-    return null;
+  // Если требуется авторизация, а пользователь не авторизован...
+  if (!anonymous && !isLoggedIn && !token) {
+    // ...то отправляем его на страницу логин
+    return <Navigate to="/login" state={{ from: location }} />;
   }
 
   return element;

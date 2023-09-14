@@ -1,6 +1,8 @@
 import { getCookie } from "./getCookie";
 
 export const URL = "https://norma.nomoreparties.space/api";
+export const WS_FEED_URL = "wss://norma.nomoreparties.space/orders/all";
+export const WS_PROFILE_URL = "wss://norma.nomoreparties.space/orders";
 
 export function getIngredients() {
   return fetch(`${URL}/ingredients`).then(checkResponse);
@@ -58,12 +60,23 @@ export const fetchOrderData = (ingredients) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: localStorage.getItem("accessToken"),
     },
     body: JSON.stringify({
       ingredients,
     }),
-  });
+  }).then(checkResponse);
 };
+
+export const fetchOrderDataByNumber = (number) => {
+  return fetch(`${URL}/orders/${number}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then(checkResponse);
+};
+
 export const loginRequest = async (form) => {
   return await fetch(`${URL}/auth/login`, {
     method: "POST",
@@ -79,7 +92,7 @@ export const loginRequest = async (form) => {
       email: form.email,
       password: form.password,
     }),
-  });
+  }).then(checkResponse);
 };
 
 export const registerRequest = async (form) => {
@@ -98,7 +111,7 @@ export const registerRequest = async (form) => {
       email: form.email,
       password: form.password,
     }),
-  });
+  }).then(checkResponse);
 };
 
 export const passwordResetRequest = async (form) => {
@@ -116,7 +129,7 @@ export const passwordResetRequest = async (form) => {
       password: form.password,
       token: form.token,
     }),
-  });
+  }).then(checkResponse);
 };
 
 export const passwordRecoveryRequest = async (form) => {
@@ -133,7 +146,7 @@ export const passwordRecoveryRequest = async (form) => {
     body: JSON.stringify({
       email: form.email,
     }),
-  });
+  }).then(checkResponse);
 };
 
 export const logoutRequest = async (user) => {
@@ -144,14 +157,14 @@ export const logoutRequest = async (user) => {
     credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + getCookie("token"),
+      Authorization: localStorage.getItem("accessToken"),
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify({
       token: user.refreshToken,
     }),
-  });
+  }).then(checkResponse);
 };
 
 export const userDataRequest = async () => {
@@ -162,11 +175,11 @@ export const userDataRequest = async () => {
     credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + getCookie("token"),
+      Authorization: localStorage.getItem("accessToken"),
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
-  });
+  }).then(checkResponse);
 };
 
 export const updateDataRequest = async (form) => {
@@ -177,7 +190,7 @@ export const updateDataRequest = async (form) => {
     credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + getCookie("token"),
+      Authorization: localStorage.getItem("accessToken"),
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
@@ -186,5 +199,5 @@ export const updateDataRequest = async (form) => {
       email: form.email,
       password: form.password,
     }),
-  });
+  }).then(checkResponse);
 };
