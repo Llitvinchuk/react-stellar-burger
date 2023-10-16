@@ -2,7 +2,7 @@ import {
   CurrencyIcon,
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from "react-redux";
+
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Order.module.css";
 import { useEffect, useState } from "react";

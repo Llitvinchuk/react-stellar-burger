@@ -1,5 +1,5 @@
 import { request, fetchWithRefresh, URL } from "../../utils/api";
-import { setCookie } from "../../utils/getCookie";
+
 import { AppDispatch } from "../../utils/types";
 
 const PASSWORD_RECOVERY: "PASSWORD_RECOVERY" = "PASSWORD_RECOVERY";

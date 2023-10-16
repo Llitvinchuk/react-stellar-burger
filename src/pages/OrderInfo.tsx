@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+
 import { WS_PROFILE_CONNECTION_START } from "../services/actions/WebsocketActions";
 import styles from "./styles.module.css";
 import OrderModal from "../components/Order/OrderModal";

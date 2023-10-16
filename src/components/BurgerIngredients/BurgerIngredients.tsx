@@ -2,16 +2,7 @@ import React, { useMemo, useState } from "react";
 import styles from "./BurgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Ingredient } from "./Ingredient";
-import { useDispatch, useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
-import {
-  closeIngredientDetailsModal,
-  deletePopupIngredient,
-  openIngredientDetailsModal,
-  setPopupIngredient,
-} from "../../services/actions/IngredientDetailsAction";
-import Modal from "../Modal/Modal";
-import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import { useAppSelector } from "../../utils/hooks";
 
 export const BurgerIngredients = () => {
@@ -19,22 +10,10 @@ export const BurgerIngredients = () => {
     return state.ingredients.data;
   });
   const [current, setCurrent] = useState<"buns" | "sauces" | "main">("buns");
-  // const { isPopupIngredientOpened } = useSelector(
-  //   (state) => state.ingredientDetails
-  // );
 
   const buns = useMemo(() => {
     return data.filter((item) => item.type === "bun");
   }, [data]);
-
-  // const handleOpenModalIngredient = (element) => {
-  //   dispatch(openIngredientDetailsModal());
-  //   dispatch(setPopupIngredient(element));
-  // };
-  // const handleCloseModalIngredient = () => {
-  //   dispatch(closeIngredientDetailsModal());
-  //   dispatch(deletePopupIngredient());
-  // };
 
   const sauces = useMemo(
     () => data.filter((item) => item.type === "sauce"),

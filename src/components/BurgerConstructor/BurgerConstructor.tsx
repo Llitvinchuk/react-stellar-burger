@@ -7,7 +7,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { TIngredient } from "../../utils/types";
-import { useDispatch, useSelector } from "react-redux";
+
 import {
   addBurgerIngredient,
   moveIngredient,
@@ -49,12 +49,16 @@ export const BurgerConstructor = () => {
     ids: any;
   };
 
+  interface IAction {
+    type: "change";
+  }
+
   const initialState: TPriceState = {
     count: 0,
     ids: [],
   };
 
-  function reducer(state: TPriceState, action: any) {
+  function reducer(state: TPriceState, action: IAction) {
     switch (action.type) {
       case "change":
         const ingredientPrice = ingredients

@@ -1,15 +1,9 @@
-import { useSelector } from "react-redux";
-import { ingredientPropType } from "../../utils/prop-types";
 import styles from "./IngredientDetails.module.css";
 import { useParams } from "react-router-dom";
-import { useMemo } from "react";
+
 import { useAppSelector } from "../../utils/hooks";
 
 const IngredientDetails = () => {
-  // const popupIngredient = useSelector(
-  //   (state) => state.ingredientDetails.popupIngredient
-  // );
-
   const ingredients = useAppSelector((state) => state.ingredients.data);
 
   const { id } = useParams();

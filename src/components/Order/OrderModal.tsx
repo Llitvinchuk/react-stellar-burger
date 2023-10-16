@@ -5,7 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useLocation } from "react-router-dom";
 import styles from "./Order.module.css";
-import { useDispatch, useSelector } from "react-redux";
+
 import { useEffect } from "react";
 
 import { getOrderByNumber } from "../../services/actions/OrderDetailsAction";
@@ -20,11 +20,14 @@ export default function OrderModal() {
   const ingredients = useAppSelector((state) => {
     return state.ingredients.data;
   });
+
   const orderIngredients: TIngredient[] = [];
-  const { orders, userOrders } = useAppSelector((store) => ({
-    orders: store.wsReducer.orders,
-    userOrders: store.wsReducer.userOrders,
-  }));
+  const { orders, userOrders } = useAppSelector((store) => {
+    return {
+      orders: store.wsReducer.orders,
+      userOrders: store.wsReducer.userOrders,
+    };
+  });
 
   useEffect(() => {
     if (!orders.length) {

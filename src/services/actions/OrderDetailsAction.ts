@@ -23,6 +23,7 @@ export type TOrderData = {
   order: {
     number: number;
   };
+  orders: any;
 };
 
 type TGetOrderRequestAction = {
@@ -84,7 +85,7 @@ export const getOrderError = (
   payload: { error },
 });
 
-export const postOrder = (array: any[]) => {
+export const postOrder = (array: string[]) => {
   return function (dispatch: AppDispatch) {
     dispatch(getOrderRequest());
     fetchOrderData(array)

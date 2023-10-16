@@ -1,4 +1,7 @@
-import { GET_ORDER_BY_NUMBER_SUCCESS } from "../actions/OrderDetailsAction";
+import {
+  GET_ORDER_BY_NUMBER_SUCCESS,
+  TOrderActions,
+} from "../actions/OrderDetailsAction";
 import {
   WS_CONNECTION_START,
   WS_CONNECTION_SUCCESS,
@@ -41,7 +44,7 @@ export const initialState: TOrdersState = {
 
 export const wsReducer = (
   state: TOrdersState = initialState,
-  action: TWSActions | TWSAuthActions
+  action: TWSActions | TWSAuthActions | TOrderActions
 ): TOrdersState => {
   switch (action.type) {
     case WS_CONNECTION_START:
@@ -125,12 +128,13 @@ export const wsReducer = (
         total: action.payload.total,
         totalToday: action.payload.totalToday,
       };
-    // case GET_ORDER_BY_NUMBER_SUCCESS: {
-    //   return {
-    //     ...state,
-    //     orders: [...state.orders, ...action.order.orders],
-    //   };
-    // }
+
+    case GET_ORDER_BY_NUMBER_SUCCESS: {
+      return {
+        ...state,
+        orders: [...state.orders, ...action.order.orders],
+      };
+    }
     default:
       return state;
   }

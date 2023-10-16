@@ -5,10 +5,6 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import PropTypes from "prop-types";
-import { ingredientPropType } from "../../utils/prop-types";
-import { useDispatch, useSelector } from "react-redux";
-
 import { addBurgerIngredient } from "../../services/actions/BurgerConstructorAction";
 import { useDrag } from "react-dnd";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -77,7 +73,3 @@ export const Ingredient = ({ element }: { element: TIngredient }) => {
     </Link>
   );
 };
-
-Ingredient.propTypes = PropTypes.arrayOf(
-  ingredientPropType.isRequired
-).isRequired;

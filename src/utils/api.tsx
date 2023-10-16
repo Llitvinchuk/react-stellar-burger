@@ -56,12 +56,12 @@ export const fetchWithRefresh = async (url: string, options: any) => {
   }
 };
 
-export const fetchOrderData = (ingredients: TIngredient[]) => {
+export const fetchOrderData = (ingredients: TIngredient[] | string[]) => {
   return fetch(`${URL}/orders`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      Authorization: `${localStorage.getItem("accessToken")}`,
     },
     body: JSON.stringify({
       ingredients,

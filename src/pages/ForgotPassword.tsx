@@ -6,7 +6,6 @@ import {
 import styles from "./styles.module.css";
 
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { passwordRecoveryRequest } from "../services/actions/AuthActions";
 import { useAppDispatch } from "../utils/hooks";
 

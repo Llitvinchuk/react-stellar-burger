@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
 import { updateDataRequest } from "../services/actions/AuthActions";
 import styles from "./styles.module.css";
 import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useAppDispatch } from "../utils/hooks";
+import { useAppDispatch, useAppSelector } from "../utils/hooks";
 import { RootState } from "../utils/types";
 
 export const ProfileUser = () => {
@@ -19,7 +17,7 @@ export const ProfileUser = () => {
     email: "",
   });
 
-  const user = useSelector((store: RootState) => store.authReducer.user);
+  const user = useAppSelector((store: RootState) => store.authReducer.user);
   // useEffect(() => {
   //   setValue(user);
   // }, [user]);

@@ -6,7 +6,6 @@ import { useCallback, useState } from "react";
 import styles from "./styles.module.css";
 import { useNavigate, Navigate } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
 import { registerRequest } from "../services/actions/AuthActions";
 import { useAppDispatch } from "../utils/hooks";
 

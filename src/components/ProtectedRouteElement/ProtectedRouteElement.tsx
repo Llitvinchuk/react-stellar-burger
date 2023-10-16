@@ -1,8 +1,5 @@
 import { FC, ReactElement, useEffect, useState } from "react";
 
-import PropTypes from "prop-types";
-import { userDataRequest } from "../../services/actions/AuthActions";
-import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAppSelector } from "../../utils/hooks";
 

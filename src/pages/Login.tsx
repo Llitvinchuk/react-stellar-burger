@@ -6,9 +6,8 @@ import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import styles from "./styles.module.css";
 import { useNavigate, Navigate, useLocation, redirect } from "react-router-dom";
 
-import { useDispatch, useSelector } from "react-redux";
 import { loginRequest } from "../services/actions/AuthActions";
-import { useAppSelector } from "../utils/hooks";
+import { useAppDispatch, useAppSelector } from "../utils/hooks";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
@@ -38,7 +37,7 @@ export const LoginPage = () => {
     navigate("/forgot-password");
   };
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [form, setValue] = useState(() => ({
     email: "",
