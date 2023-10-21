@@ -9,12 +9,11 @@ import styles from "./styles.module.css";
 import { OrderCard } from "../components/Order/OrderCard";
 
 import { useAppDispatch, useAppSelector } from "../utils/hooks";
-import { RootState } from "../utils/types";
 
 export const OrderPage = () => {
   const dispatch = useAppDispatch();
 
-  const { usersOrders } = useAppSelector((store: RootState) => ({
+  const { usersOrders } = useAppSelector((store) => ({
     usersOrders: store.wsReducer.userOrders,
   }));
 

@@ -6,7 +6,6 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useAppDispatch, useAppSelector } from "../utils/hooks";
-import { RootState } from "../utils/types";
 
 export const ProfileUser = () => {
   const dispatch = useAppDispatch();
@@ -17,7 +16,7 @@ export const ProfileUser = () => {
     email: "",
   });
 
-  const user = useAppSelector((store: RootState) => store.authReducer.user);
+  const user = useAppSelector((store) => store.authReducer.user);
   // useEffect(() => {
   //   setValue(user);
   // }, [user]);
